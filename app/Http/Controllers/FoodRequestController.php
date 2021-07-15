@@ -83,6 +83,7 @@ class FoodRequestController extends Controller
                     $frequest->type = $request->type;
                 }
                 $frequest->done_by = Auth::user()->full_name;
+                $frequest->request = 'REQ'.random_int(1,10000);
                 $frequest->save();
 
                 if ($frequest->save())

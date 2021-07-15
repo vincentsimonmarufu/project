@@ -29,6 +29,7 @@ class BeneficiaryFactory extends Factory
             'last_name' => $this->faker->name,
             'mobile_number' => $this->faker->numberBetween(700000000,782877933),
             'id_number' => Str::random(9),
+            'pin' => User::all()->random()->pin
         ];
     }
 }

@@ -170,7 +170,7 @@ class AllocationsController extends Controller
         // check the allocation status
         $status = $allocation->status;
 
-        if ($status == 'not issued')
+        if ($status == 'not collected')
         {
             $deleted = $allocation->delete();
 
@@ -292,6 +292,13 @@ class AllocationsController extends Controller
                     ->pluck('allocation');
 
         return response()->json($allocation);
+    }
+
+    public function downloadAllocationForm()
+    {
+        $myFile = public_path("starter-downloads/allocation import.xlsx");
+
+        return response()->download($myFile);
     }
 
 }

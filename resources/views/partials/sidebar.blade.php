@@ -219,7 +219,7 @@
                         </li>
                         <li class="">
                             <a
-                                href="{{ url('jobcards') }}"
+                                href="{{ url('get-jobcard-import') }}"
                                 class="waves-effect waves-dark"
                             >
                                 <span class="pcoded-mtext">Import Jobcards</span>
@@ -303,9 +303,9 @@
                         <span class="pcoded-mtext">Add New</span>
                         </a>
                     </li>
-                    <li class="{{ url('fcollections') }}">
+                    <li class="">
                         <a
-                        href=""
+                        href="{{ url('fcollections') }}"
                         class="waves-effect waves-dark"
                         >
                         <span class="pcoded-mtext">Collections</span>

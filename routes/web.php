@@ -59,11 +59,13 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
     Route::get('/department-users/{department}','App\Http\Controllers\AllocationsController@getDepartmentalUsers');
     Route::resource('deleted-allocations', 'App\Http\Controllers\SoftDeleteAllocationsController');
     Route::get('/get-allocation/{paynumber}','App\Http\Controllers\AllocationsController@getAllocation');
+    Route::get('/allocation-download','App\Http\Controllers\AllocationsController@downloadAllocationForm');
 
     // jobcards
     Route::resource('jobcards', 'App\Http\Controllers\JobcardsController');
     Route::resource('deleted-jobcards','App\Http\Controllers\SoftDeleteJobcardsController');
     Route::get('restore-job/{id}','App\Http\Controllers\SoftDeleteJobcardsController@restoreJob');
+    Route::get('get-jobcard-import','App\Http\Controllers\SoftDeleteJobcardsController@importJobcards');
 
     // food request
     Route::resource('frequests','App\Http\Controllers\FoodRequestController');
@@ -78,7 +80,10 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
     Route::get('/pending-requests','App\Http\Controllers\FoodRequestController@getPending');
 
     // food collection
-    Route::resource('fcollections', FoodCollectionController::class);
+    Route::resource('fcollections', 'App\Http\Controllers\FoodCollectionController');
+    Route::get('getfoodrequest/{paynumber}','App\Http\Controllers\FoodCollectionController@getFoodRequest');
+    Route::get('getfrequestallocation/{paynumber}','App\Http\Controllers\FoodCollectionController@getFoodRequestAllocation');
+    Route::get('getuserbeneficiaries/{paynumber}','App\Http\Controllers\FoodCollectionController@getUserBeneficiaries');
 });
 
 Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger\App\Http\Controllers', 'middleware' => ['web', 'auth', 'activity','role:admin']], function () {

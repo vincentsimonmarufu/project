@@ -147,4 +147,9 @@ class JobcardsController extends Controller
 
         return redirect('jobcards')->with('success','Jobcard has been deleted successfully');
     }
+
+    public function importJobcards()
+    {
+        return view('jobcards.import');
+    }
 }

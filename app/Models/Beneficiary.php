@@ -28,4 +28,9 @@ class Beneficiary extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    }
+
 }

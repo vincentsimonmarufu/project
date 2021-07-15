@@ -12,8 +12,8 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Food Distribution</h5>
-                    <span class="pcoded-mtext"> Food humber distribution overview</span>
+                    <h5>Requested Humbers</h5>
+                    <span class="pcoded-mtext"> Overview of Requested food humbers</span>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                         ></a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('frequests') }}">Fdistribution</a>
+                        <a href="{{ url('frequests') }}">Food Requests</a>
                     </li>
                     <li class="breadcrumb-item">
                         <a href="{{ url('frequests/create') }}">Add New</a>

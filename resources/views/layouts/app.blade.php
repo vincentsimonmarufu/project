@@ -42,6 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('dash_resource/css/font-awesome.min.css')}}" />
 
+
     <link
         rel="stylesheet"
         href="{{ asset('dash_resource/css/chartist.css')}}"

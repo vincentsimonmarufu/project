@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                     <p class="m-b-0 text-white">
-                                        <span class="label label-danger m-r-10">+11%</span>
+
                                         @if ($settings->food_available == 0 )
                                             Cannot be issued (In Stock)
                                         @else
@@ -84,7 +84,7 @@
                                         <div class="col">
                                             <h6 class="m-b-5 text-white">Meat Humbers</h6>
                                             <h3 class="m-b-0 f-w-700 text-white">
-                                                830
+                                                {{ $meat_count }}
                                             </h3>
                                         </div>
                                         <div class="col-auto">
@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                     <p class="m-b-0 text-white">
-                                        <span class="label label-primary m-r-10">+12%</span>
+
                                         @if ( $settings->meat_available == 0)
                                             Cannot be issued (In Stock)
                                         @else
@@ -113,7 +113,7 @@
                                                 Total Available
                                             </h6>
                                             <h3 class="m-b-0 f-w-700 text-white">
-                                                6,780
+                                                {{ $total }}
                                             </h3>
                                         </div>
                                         <div class="col-auto">
@@ -122,10 +122,7 @@
                                             ></i>
                                         </div>
                                     </div>
-                                    <p class="m-b-0 text-white">
-                                <span class="label label-success m-r-10"
-                                >+52%</span
-                                >From Previous Month
+                                    <p class="m-b-0 text-white"> + From Previous Month
                                     </p>
                                 </div>
                             </div>
@@ -178,8 +175,8 @@
                                         <th>Quantity</th>
                                         <th>Issued</th>
                                         <th>Remaining</th>
-                                        <th>Extras</th>
-                                        <th>Previous</th>
+                                        <th>Extras / Previous</th>
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -193,8 +190,7 @@
                                                 <td>{{ $card->quantity }}</td>
                                                 <td>{{ $card->issued }}</td>
                                                 <td>{{ $card->remaining }}</td>
-                                                <td>{{ $card->extras }}</td>
-                                                <td>{{ $card->previous }}</td>
+                                                <td>{{ $card->extras_previous }}</td>
                                             </tr>
                                         @endforeach
                                     @endif

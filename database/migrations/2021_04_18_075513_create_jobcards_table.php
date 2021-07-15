@@ -22,8 +22,7 @@ class CreateJobcardsTable extends Migration
             $table->integer('quantity');
             $table->integer('issued')->default(0);
             $table->integer('remaining')->default(0);
-            $table->integer('extras')->default(0);
-            $table->integer('previous')->default(0);
+            $table->integer('extras_previous')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

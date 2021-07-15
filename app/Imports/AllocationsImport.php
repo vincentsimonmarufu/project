@@ -28,14 +28,14 @@ class AllocationsImport implements ToCollection, WithHeadingRow
                                     ->join('allocations','users.paynumber','=','allocations.paynumber')
                                     ->select('users.*','allocations.*')
                                     ->where('users.paynumber',$user->paynumber)
-                                    ->where('allocations.allocation',$row['month'])
+                                    ->where('allocations.allocation',$row['allocation'])
                                     ->first();
 
                 if (!$user_allocation) {
 
                     $allocation = Allocation::create([
                         'paynumber' => $row['paynumber'],
-                        'allocation' => $row['month'],
+                        'allocation' => $row['allocation'],
                         'meet_a' => $row['meet_a'],
                         'meet_b' => $row['meet_b'],
                         'meet_allocation' => 1,

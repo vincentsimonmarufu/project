@@ -67,7 +67,7 @@
                                   <th>Quantity</th>
                                   <th>Issued</th>
                                   <th>Remaining</th>
-                                  <th>Extras</th>
+                                  <th>Extras / Previous</th>
                                   <th>Previous</th>
                                   <th>Action</th>
                                 </tr>
@@ -84,8 +84,7 @@
                                             <td>{{ $jobcard->quantity }}</td>
                                             <td>{{ $jobcard->issued }}</td>
                                             <td>{{ $jobcard->remaining }}</td>
-                                            <td>{{ $jobcard->extras}}</td>
-                                            <td>{{ $jobcard->previous}}</td>
+                                            <td>{{ $jobcard->extras_previous}}</td>
                                             <td style="white-space: nowrap;width:20%;">
                                                 <a href="{{ route('jobcards.edit',$jobcard->id) }}" data-toggle="tooltip" title="Edit Jobcard" class="d-inline btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
                                                 <button type="button" class="d-inline btn-sm btn btn-success" data-toggle="modal" data-target="#showJobcard" data-issued="{{ $jobcard->issued }}" data-quantity="{{ $jobcard->quantity }}" data-month="{{ $jobcard->card_month }}" data-dateopened="{{ $jobcard->date_opened }}" data-cardnumber="{{ $jobcard->card_number }}"><i class="fa fa-eye"></i></button>

@@ -20,7 +20,11 @@ class Jobcard extends Model
         'quantity',
         'issued',
         'remaining',
-        'extras',
-        'previous'
+        'extras_previous',
     ];
+
+    public function fcollections()
+    {
+        return $this->hasMany(FoodCollection::class,'jobcard','card_number');
+    }
 }

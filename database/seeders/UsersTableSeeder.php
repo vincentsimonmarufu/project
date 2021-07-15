@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -24,6 +25,7 @@ class UsersTableSeeder extends Seeder
          */
 
         // admin user
+        $pin = 1234;
         $adminiEmail = 'vmarufu@whelson.co.zw';
         $newUser = User::where('email','=', $adminiEmail)->first();
         if($newUser === null){
@@ -37,6 +39,7 @@ class UsersTableSeeder extends Seeder
                 'email'    => $adminiEmail,
                 'password' => bcrypt('password'),
                 'activated' => 1,
+                'pin' => Hash::make($pin),
 
             ]);
 
@@ -60,6 +63,7 @@ class UsersTableSeeder extends Seeder
                 'email'    => 'user@user.com',
                 'password' => bcrypt('password'),
                 'activated' => 1,
+                'pin' => Hash::make($pin),
             ]);
 
             $newUser->attachRole($userRole);

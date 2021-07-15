@@ -29,4 +29,9 @@ class Allocation extends Model
         return $this->belongsTo(User::class,'paynumber','paynumber');
     }
 
+    public function fcollection()
+    {
+        return $this->hasOne(FoodCollection::class,'allocation','allocation');
+    }
+
 }

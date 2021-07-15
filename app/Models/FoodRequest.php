@@ -21,7 +21,8 @@ class FoodRequest extends Model
         'status',
         'trash',
         'reason',
-        'type'
+        'type',
+        'request'
     ];
 
     public function user()

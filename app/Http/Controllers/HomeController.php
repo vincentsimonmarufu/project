@@ -34,19 +34,27 @@ class HomeController extends Controller
             $settings = HumberSetting::where('id',1)->first();
 
             $food_count = 0;
+            $meat_count = 0;
             $jobcards = Jobcard::all();
 
             foreach ($jobcards as $job)
             {
-                if ($job->remaining > 0 && $job->card_type)
+                if ($job->remaining > 0 && $job->card_type == 'food')
                 {
                     $food_count += $job->remaining;
                 }
+
+                if ($job->remaining > 0 && $job->card_type == 'meat')
+                {
+                    $meat_count += $job->remaining;
+                }
             }
+
+            $total = $food_count + $meat_count;
 
             $jobcards = DB::table('jobcards')->orderBy('created_at','desc')->limit(5)->get();
 
-            return view('home',compact('settings','jobcards','food_count'));
+            return view('home',compact('settings','jobcards','food_count','meat_count','total'));
         }
     }
 }

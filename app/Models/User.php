@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\FoodCollectionController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -86,6 +87,11 @@ class User extends Authenticatable
     public function frequests()
     {
         return $this->hasMany(FoodRequest::class,'paynumber','paynumber');
+    }
+
+    public function fcollections()
+    {
+        return $this->hasMany(FoodCollection::class,'paynumber','paynumber');
     }
 
 }
