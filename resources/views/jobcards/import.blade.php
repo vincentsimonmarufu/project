@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Import Allocation
+    Import Jobcards
 @endsection
 
 @section('template_linked_css')
@@ -15,8 +15,8 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Allocations</h5>
-                    <span class="pcoded-mtext"> Import allocations from excel</span>
+                    <h5>Job Cards</h5>
+                    <span class="pcoded-mtext"> Import jobcards from excel</span>
                 </div>
             </div>
         </div>
@@ -24,12 +24,12 @@
             <div class="page-header-breadcrumb">
                 <ul class="breadcrumb breadcrumb-title">
                     <li class="breadcrumb-item">
-                        <a href="index.html"
+                        <a href=""
                         ><i class="feather icon-home"></i
                         ></a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('allocations') }}">Allocations</a>
+                        <a href="{{ url('jobcards') }}">Job Cards</a>
                     </li>
                 </ul>
             </div>
@@ -45,8 +45,8 @@
                     <div class="col-sm-12">
                       <div class="card">
                         <div class="card-header pb-0">
-                            <h4 style="margin-bottom:0">Import Allocation</h4>
-                            <span>Please download the template file <a href="{{ url('/allocation-download') }}" data-toggle="tooltip" title="Download File" style="font-weight: bold;">HERE</a> for importation. Use plain text fo system to recognise the data.  </span>
+                            <h4 style="margin-bottom:0">Import Job Cards</h4>
+                            <span>Please download the template file <a href="{{ url('/jobcard-download') }}" data-toggle="tooltip" title="Download File" style="font-weight: bold;">HERE</a> for importation. Use plain text fo system to recognise the data.  </span>
                         </div>
                         <div class="card-block" style="padding-top: 7px;margin-top:0;">
                             <h4 class="sub-title"></h4>

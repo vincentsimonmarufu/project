@@ -47,6 +47,10 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
     Route::resource('users', 'App\Http\Controllers\UsersManagementController');
     Route::resource('deleted-users', 'App\Http\Controllers\SoftDeleteUsersController');
     Route::get('deactivate-user/{id}','App\Http\Controllers\UsersManagementController@deActivateUser');
+    Route::get('terminate-user-form','App\Http\Controllers\UsersManagementController@terminateForm');
+    Route::get('reset-pin','App\Http\Controllers\UsersManagementController@resetPinForm');
+    Route::post('reset-post','App\Http\Controllers\UsersManagementController@resetPinPost');
+    Route::post('terminate-post','App\Http\Controllers\UsersManagementController@terminatePost');
 
     // beneficiaries
     Route::resource('beneficiaries', 'App\Http\Controllers\BeneficiariesController');
@@ -65,7 +69,9 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
     Route::resource('jobcards', 'App\Http\Controllers\JobcardsController');
     Route::resource('deleted-jobcards','App\Http\Controllers\SoftDeleteJobcardsController');
     Route::get('restore-job/{id}','App\Http\Controllers\SoftDeleteJobcardsController@restoreJob');
-    Route::get('get-jobcard-import','App\Http\Controllers\SoftDeleteJobcardsController@importJobcards');
+    Route::get('get-jobcard-import','App\Http\Controllers\JobcardsController@importJobcards');
+    Route::post('import-jobcard','App\Http\Controllers\JobcardsController@uploadJobcards');
+    Route::get('/jobcard-download','App\Http\Controllers\JobcardsController@downloadAllocationForm');
 
     // food request
     Route::resource('frequests','App\Http\Controllers\FoodRequestController');
@@ -78,6 +84,9 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
 
     Route::get('/approved-requests','App\Http\Controllers\FoodRequestController@getApproved');
     Route::get('/pending-requests','App\Http\Controllers\FoodRequestController@getPending');
+
+    Route::get('/get-allocation-request/{paynumber}','App\Http\Controllers\FoodRequestController@getAllocation');
+    Route::get('/get-jobcard-request/{paynumber}','App\Http\Controllers\FoodRequestController@getRequestJobcard');
 
     // food collection
     Route::resource('fcollections', 'App\Http\Controllers\FoodCollectionController');

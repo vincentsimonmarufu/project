@@ -53,6 +53,22 @@
                         <span class="pcoded-mtext">Deleted Users</span>
                         </a>
                     </li>
+                    <li class="">
+                        <a
+                        href="{{ url('terminate-user-form') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Terminate User</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href="{{ url('reset-pin') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Reset Pin</span>
+                        </a>
+                    </li>
                     </ul>
                 </li>
 

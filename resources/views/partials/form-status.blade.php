@@ -48,7 +48,7 @@
                 class="icofont icofont-close-line-circled"></i>
         </button>
         <h5>
-            <strong>Error !</strong> {{ session('error') }}
+            <strong style="font-weight: bold;">System Error ! : </strong> {{ session('error') }}
         </h5>
     </div>
 </div>

@@ -21,6 +21,7 @@ class Jobcard extends Model
         'issued',
         'remaining',
         'extras_previous',
+        'temp'
     ];
 
     public function fcollections()

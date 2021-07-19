@@ -22,7 +22,8 @@ class FoodRequest extends Model
         'trash',
         'reason',
         'type',
-        'request'
+        'request',
+        'jobcard'
     ];
 
     public function user()

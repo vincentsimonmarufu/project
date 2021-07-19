@@ -23,6 +23,7 @@ class CreateFoodRequestsTable extends Migration
             $table->string('status')->default('not approved');
             $table->string('reason')->nullable();
             $table->boolean('trash')->default(0);
+            $table->string('jobcard')->nullable();
             $table->string('type');
             $table->softDeletes();
             $table->timestamps();

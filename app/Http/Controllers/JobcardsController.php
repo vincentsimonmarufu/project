@@ -148,8 +148,20 @@ class JobcardsController extends Controller
         return redirect('jobcards')->with('success','Jobcard has been deleted successfully');
     }
 
+    public function downloadAllocationForm()
+    {
+        $myFile = public_path("starter-downloads/jobcards.xlsx");
+
+        return response()->download($myFile);
+    }
+
     public function importJobcards()
     {
         return view('jobcards.import');
+    }
+
+    public function uploadJobcards()
+    {
+        dd($request);
     }
 }

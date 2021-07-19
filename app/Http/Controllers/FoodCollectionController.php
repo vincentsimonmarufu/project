@@ -221,6 +221,7 @@ class FoodCollectionController extends Controller
     {
         $name = DB::table("food_requests")
           ->where("paynumber",$paynumber)
+          ->where('deleted_at','!=',null)
           ->pluck("request");
 
         return response()->json($name);
@@ -230,6 +231,7 @@ class FoodCollectionController extends Controller
     {
         $name = DB::table("food_requests")
           ->where("paynumber",$paynumber)
+          ->where('deleted_at','!=',null)
           ->pluck("allocation");
 
         return response()->json($name);

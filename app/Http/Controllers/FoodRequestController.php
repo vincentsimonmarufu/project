@@ -109,7 +109,7 @@ class FoodRequestController extends Controller
 
                             } catch (\Exception $e) {
 
-                                return redirect('frequests')->with('success','Your request has been submitted successfully. Please be advised that the sytem failed to send email notification.');
+                                return redirect('home')->with('success','Your request has been submitted successfully. Please be advised that the sytem failed to send email notification.');
                             }
                         }
                     }
@@ -177,7 +177,6 @@ class FoodRequestController extends Controller
     public function approveRequest($id)
     {
         $request = FoodRequest::findOrFail($id);
-        $req_type = $request->type.'_allocation';
 
         // check for request type
         if ($request->type == 'extra')
@@ -202,17 +201,52 @@ class FoodRequestController extends Controller
                             $previous = FoodRequest::where('allocation',$request->allocation)
                                                     ->where('type','=','food')
                                                     ->where('status','=','approved')
+                                                    ->where('trash','=',1)
                                                     ->first();
 
                             if (!$previous)
                             {
-                                $request->status = "approved";
-                                $request->trash = 1;
-                                $request->done_by = Auth::user()->full_name;
-                                $request->updated_at = now();
-                                $request->save();
+                                // check if there is a jobcard with non allocated units
+                                $jobcard = Jobcard::where('remaining','>',0)->first();
 
-                                return redirect('frequests')->with('success','Humber request has been approved successfully');
+                                if ($jobcard)
+                                {
+                                    $job_month = $request->paynumber.$jobcard->card_month;
+                                    $user_status_activated = $allocation->user->activated;
+                                    if ($user_status_activated == 1)
+                                    {
+                                        $request->status = "approved";
+                                        $request->trash = 1;
+                                        $request->done_by = Auth::user()->name;
+                                        $request->updated_at = now();
+                                        $request->jobcard = $jobcard->card_number;
+                                        $request->save();
+
+                                        $jobcard->updated_at = now();
+
+                                        if ($job_month == $request->allocation)
+                                        {
+                                            $jobcard->issued += 1;
+
+                                        } else {
+
+                                            $jobcard->extras_previous += 1;
+                                        }
+                                        $jobcard->remaining -= 1;
+                                        $jobcard->save();
+
+                                        return redirect('frequests')->with('success','Request has been approved successfully');
+
+                                    } else {
+
+                                        return back()->with('error',"Selected User has been De Activated. Please contact admin for user to be activated.");
+                                    }
+                                    return redirect('frequests')->with('success','Humber request has been approved successfully');
+
+                                } else {
+
+                                    return back()->with('error','There is no jobcard for approving the request. Please contact Admin for more info');
+                                }
 
                             } else {
 
@@ -264,5 +298,25 @@ class FoodRequestController extends Controller
     {
         $frequests = FoodRequest::where('status','=','not approved')->get();
         return view('frequests.pending',compact('frequests'));
+    }
+
+    public function getAllocation($paynumber) {
+
+        $allocation = Allocation::where('paynumber',$paynumber)
+                    ->where('food_allocation','>',0)
+                    ->where('status','not collected')
+                    ->pluck('allocation');
+
+        return response()->json($allocation);
+    }
+
+    public function getRequestJobcard($paynumber)
+    {
+        $value = FoodRequest::where('paynumber',$paynumber)
+                    ->where('status','=','approved')
+                    ->where('trash',1)
+                    ->pluck('jobcard');
+
+        return response()->json($value);
     }
 }

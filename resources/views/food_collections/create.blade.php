@@ -87,7 +87,7 @@
 
                                     @csrf
 
-                                    <h3>Student Details</h3>
+                                    <h3>Employee Details</h3>
                                     <fieldset>
                                         <div class="row mb-4 mb-4">
                                             <div class="col-lg-6">
@@ -103,14 +103,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <label for="jobcard">Job Card Number *</label>
-                                                <select name="jobcard" id="jobcard" class="form-control" style="width:100%;">
-                                                    <option value="">Please select active jobcard</option>
-                                                    @if($jobcards)
-                                                        @foreach($jobcards as $jobcard)
-                                                            <option value="{{ $jobcard->card_number }}">{{ $jobcard->card_number }}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
+                                                <input type="text" name="jobcard" id="jobcard" class="form-control" readonly placeholder="select jobcard">
                                             </div>
                                         </div>
 
@@ -269,30 +262,29 @@
                         }
 
                     });
+
+                    $.ajax({
+                        type:"get",
+                        url:"/get-jobcard-request/"+paynumber,
+                        _token: _token ,
+                        success:function(res) {
+                            if(res) {
+                                $("#jobcard").empty();
+                                $.each(res,function(key, value){
+                                    $("#jobcard").val(value);
+                                });
+                            }
+                        }
+
+                    });
                 }
             });
 
-        $('#jobcard').select2({
-            placeholder: 'Please select active jobcard',
-        });
         $('#collected_by').select2({
             placeholder: 'Please select employee beneficiary',
         });
     });
 </script>
 
-<script>
-    $(".form-check").on('change','input[type=radio]',(function() {
-    if($("#inlineRadio1").is(":checked")){
-        $(".select-display").attr("class", "oak");
-    }
-    else if($("#inlineRadio2").is(":checked")){
-        $(".select-display").attr("class", "white");
-    }
-    else if($("#mocharadio").is(":checked")){
-        $(".select-display").attr("class", "mocha");
-    }
-    }));
-</script>
 
 @endsection

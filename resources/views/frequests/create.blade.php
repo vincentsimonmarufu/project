@@ -147,7 +147,7 @@
                                                 <option value="meat">Meat Humber</option>
                                                 <option value="extra">Extra Humber</option>
                                             @else
-                                                
+
                                             @endif
                                         </select>
                                     </div>
@@ -227,7 +227,7 @@
 
             $.ajax({
                 type:"get",
-                url:"/get-allocation/"+paynumber,
+                url:"/get-allocation-request/"+paynumber,
                 _token: _token ,
                 success:function(res) {
                     if(res) {

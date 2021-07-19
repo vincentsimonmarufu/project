@@ -45,6 +45,7 @@
             <div class="page-wrapper">
                 <div class="page-body">
                     <div class="row">
+                        @include('partials.form-status')
                         <div class="col-xl-3 col-md-6">
                             <div class="card prod-p-card card-red">
                                 <div class="card-body">

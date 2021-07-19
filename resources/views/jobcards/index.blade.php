@@ -68,7 +68,6 @@
                                   <th>Issued</th>
                                   <th>Remaining</th>
                                   <th>Extras / Previous</th>
-                                  <th>Previous</th>
                                   <th>Action</th>
                                 </tr>
                               </thead>

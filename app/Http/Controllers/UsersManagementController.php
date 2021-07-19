@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Termination;
 use App\Models\User;
 use App\Models\Usertype;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use jeremykenedy\LaravelRoles\Models\Role;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
 
 class UsersManagementController extends Controller
 {
@@ -172,12 +174,36 @@ class UsersManagementController extends Controller
             $user->password = Hash::make($request->input('password'));
         }
 
-        if ($user->activated == 1)
+        if ($request->input('activated'))
         {
-            $user->activated = $request->activated;
-        }else
-        {
-            $user->activated = $request->activated;
+            if ($request->input('activated') == 1)
+            {
+                $user_status = $user->activated;
+
+                if (!$user_status == 1) {
+
+                    $user->activated = $request->input('activated');
+
+                    $terminated = Termination::where('paynumber',$user->paynumber)->first();
+                    $terminated->delete();
+
+                }
+
+            } else {
+
+                $user->activated = $request->input('activated');
+
+                $terminator = Termination::create([
+                    'paynumber' => $user->paynumber,
+                    'department' => $user->department_id,
+                    'reason' => 'Please contact Hr for classified information',
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                ]);
+                $terminator->save();
+
+            }
+
         }
 
         $userRole = $request->input('role');
@@ -233,5 +259,104 @@ class UsersManagementController extends Controller
 
         return redirect('users')->with('info',"The selected user is already deactivated.");
 
+    }
+
+    public function terminateForm()
+    {
+        $users = User::all();
+        return view('usersmanagement.terminate',compact('users'));
+    }
+
+    public function terminatePost(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'paynumber' => 'required',
+            'department' => 'required',
+            'reason' => 'required',
+        ]);
+
+        if ($validator->fails())
+        {
+            return back()->withErrors($validator)->withInput();
+        } else {
+
+            try {
+
+                $user = User::where('paynumber',$request->paynumber)->first();
+
+                if($user->activated == 1)
+                {
+                    $deactivate = DB::table('users')
+                        ->where('id', $user->id)
+                        ->update(['activated' => 0]);
+
+                    if ($deactivate)
+                    {
+                        $terminator = Termination::create([
+                            'paynumber' => $request->input('paynumber'),
+                            'department' => $user->department_id,
+                            'reason' => $request->input('reason'),
+                            'first_name' => $user->first_name,
+                            'last_name' => $user->last_name,
+                        ]);
+                        $terminator->save();
+
+                        return redirect('users')->with('success','User has been deactivated successfully. Please not that user will not be allocated as from date..');
+                    }
+                    else{
+                        return redirect()->back()->with('error','Failed to deactivate users');
+                    }
+                } else {
+
+                    return back()->with('error','Employee has already been terminated');
+                }
+
+            } catch (\Exception $e)
+            {
+                echo "Error - ".$e;
+            }
+        }
+    }
+
+    public function resetPinForm()
+    {
+        $users = User::all();
+        return view('usersmanagement.pin-reset',compact('users'));
+    }
+
+    public function resetPinPost(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'paynumber' => 'required',
+            'department' => 'required',
+            'pin' => 'required|min:4|max:6',
+            'confirm-pin' => 'required|same:pin',
+        ]);
+
+        if ($validator->fails())
+        {
+            return back()->withErrors($validator)->withInput();
+        } else {
+            try {
+                $user = User::where('paynumber',$request->paynumber)->first();
+                $user->pin = $request->input('pin');
+                $user->save();
+
+                if ($user->save())
+                {
+                    foreach($user->beneficiaries() as $beneficiary)
+                    {
+                        $beneficiary->pin = $request->input('pin');
+                        $beneficiary->updated_at = now();
+                        $beneficiary->save();
+                    }
+
+                    return  redirect('home')->with('success','Password has been updated successfully');
+                }
+
+            } catch (\Exception $e) {
+                echo "Error - ".$e;
+            }
+        }
     }
 }
