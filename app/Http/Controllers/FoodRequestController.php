@@ -255,6 +255,7 @@ class FoodRequestController extends Controller
                                     return back()->with('warning','This request has been approved already. ');
                                 } else {
 
+                                    $request->status = "rejected";
                                     $request->delete();
                                     $request->save();
 
@@ -285,7 +286,8 @@ class FoodRequestController extends Controller
 
     public function rejectRequest($id)
     {
-
+        $frequest = FoodRequest::findOrFail($id);
+        return view('frequests.reject',compact('frequest'));
     }
 
     public function getApproved()
@@ -308,15 +310,5 @@ class FoodRequestController extends Controller
                     ->pluck('allocation');
 
         return response()->json($allocation);
-    }
-
-    public function getRequestJobcard($paynumber)
-    {
-        $value = FoodRequest::where('paynumber',$paynumber)
-                    ->where('status','=','approved')
-                    ->where('trash',1)
-                    ->pluck('jobcard');
-
-        return response()->json($value);
     }
 }

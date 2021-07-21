@@ -96,25 +96,48 @@
                                                     <option value="">Select requested employee paynumber</option>
                                                     @if($requests)
                                                         @foreach ($requests as $request)
-                                                            <option value="{{ $request->paynumber }}">{{ $request->user->paynumber }} - {{ $request->user->full_name }}</option>
+                                                            <option value="{{ $request->id }}">{{ $request->user->paynumber }} - {{ $request->user->full_name }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
+                                                @error('paynumber')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong> {{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                             <div class="col-lg-6">
                                                 <label for="jobcard">Job Card Number *</label>
                                                 <input type="text" name="jobcard" id="jobcard" class="form-control" readonly placeholder="select jobcard">
+
+                                                @error('jobcard')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong> {{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
 
                                         <div class="row mb-4 mb-4">
                                             <div class="col-lg-6">
                                                 <label for="frequest">Request Number *</label>
-                                                <input type="text" name="frequest" id="frequest" class="form-control" placeholder="REQ112" readonly>
+                                                <input type="text" name="frequest" id="frequest" class="form-control" placeholder="REQ112">
+
+                                                @error('frequest')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong> {{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                             <div class="col-lg-6">
                                                 <label for="allocation">Allocation Month *</label>
-                                                <input type="text" name="allocation" id="allocation" class="form-control" placeholder="244July2021" readonly>
+                                                <input type="text" name="allocation" id="allocation" class="form-control" placeholder="244January2021">
+
+                                                @error('allocation')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong> {{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
 
@@ -122,6 +145,12 @@
                                             <div class="col-lg-6">
                                                 <label for="issue_date">Issue Date *</label>
                                                 <input type="date" name="issue_date" id="issue_date" class="form-control" placeholder="02-07-21">
+
+                                                @error('issue_date')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong> {{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                             <div class="col-lg-6">
                                                 <label for="issue_date">Select Collection *</label> <br>
@@ -133,6 +162,12 @@
                                                     <input class="form-check-input" type="radio" name="iscollector" id="inlineRadio2" value="other">
                                                     <label class="form-check-label" for="inlineRadio2">Other</label>
                                                 </div>
+
+                                                @error('iscollector')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong> {{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
 
@@ -148,10 +183,22 @@
                                                                 <select name="collected_by" id="collected_by" class="form-control" style="width: 100%;">
                                                                     <option value="">Please select employee beneficiary</option>
                                                                 </select>
+
+                                                                @error('collected_by')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong> {{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
                                                             </div>
                                                             <div class="col-lg-6">
-                                                                <label for="id_number">ID Number</label>
-                                                                <input type="text" name="id_number" id="id_number" class="form-control" placeholder="633027341W07">
+                                                                <label for="number">ID Number</label>
+                                                                <input type="text" name="number"  class="form-control" placeholder="633027341W07">
+
+                                                                @error('number')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong> {{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                     </div>
@@ -207,12 +254,12 @@
             $('#paynumber').select2({
                 placeholder:'Select requested employee paynumber'
             }).change(function(){
-                var paynumber = $(this).val();
+                var id = $(this).val();
                 var _token = $("input[name='_token']").val();
-                if(paynumber){
+                if(id){
                     $.ajax({
                         type:"get",
-                        url:"/getfoodrequest/"+paynumber,
+                        url:"/get-food-request/"+id,
                         _token: _token ,
                         success:function(res)
                         {
@@ -231,7 +278,7 @@
 
                     $.ajax({
                         type:"get",
-                        url:"/getfrequestallocation/"+paynumber,
+                        url:"/getfrequestallocation/"+id,
                         _token: _token ,
                         success:function(res)
                         {
@@ -250,7 +297,7 @@
 
                     $.ajax({
                         type:"get",
-                        url:"/getuserbeneficiaries/"+paynumber,
+                        url:"/getuserbeneficiaries/"+id,
                         _token: _token ,
                         success:function(res) {
                             if(res) {
@@ -265,7 +312,7 @@
 
                     $.ajax({
                         type:"get",
-                        url:"/get-jobcard-request/"+paynumber,
+                        url:"/get-jobcard-request/"+id,
                         _token: _token ,
                         success:function(res) {
                             if(res) {

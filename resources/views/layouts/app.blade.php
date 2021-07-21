@@ -40,6 +40,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('dash_resource/css/feather.css')}}" />
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('dash_resource/css/font-awesome-n.min.css') }}">
+
     <link rel="stylesheet" type="text/css" href="{{ asset('dash_resource/css/font-awesome.min.css')}}" />
 
 

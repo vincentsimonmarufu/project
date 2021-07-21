@@ -106,7 +106,7 @@
                                             <td>{{ $frequest->type }}</td>
                                             <td style="white-space: nowrap;width:20%;">
                                                 <a href="{{ url('approve-request/'.$frequest->id) }}"  data-toggle="tooltip" title="Approve Request" class="d-inline btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
-                                                <a href="{{ url('reject-request/'.$frequest->id) }}" data-toggle="tooltip" title="Reject Request" class="d-inline btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
+                                                <a href="{{ url('reject-request/'.$frequest->id) }}" data-toggle="tooltip" title="Reject Request" class="d-inline btn btn-success btn-sm">x</a>
                                                 <form method="POST" action="" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')

@@ -58,9 +58,7 @@
                               <thead>
                                 <tr>
                                   <th>Id</th>
-                                  <th>Department</th>
                                   <th>Pay Number</th>
-                                  <th>Name</th>
                                   <th>Job Card Number</th>
                                   <th>Issue Date</th>
                                   <th>Month</th>
@@ -73,9 +71,7 @@
                                     @foreach ($collections as $collection )
                                         <tr>
                                             <td>{{ $collection->id }}</td>
-                                            <td>{{ $collection->user->department->name }}</td>
                                             <td>{{ $collection->paynumber }}</td>
-                                            <td>{{ $collection->user->full_name }}</td>
                                             <td>{{ $collection->jobcard }}</td>
                                             <td>{{ $collection->issue_date }}</td>
                                             <td>{{ $collection->allocation }}</td>

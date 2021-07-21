@@ -168,7 +168,7 @@
                     class="waves-effect waves-dark"
                     >
                     <span class="pcoded-micon"
-                        ><i class="fa fa-tasks"></i></span>
+                        ><i class="fa fa-calendar"></i></span>
                     <span class="pcoded-mtext">Allocations</span>
                     </a>
                     <ul class="pcoded-submenu">
@@ -260,7 +260,7 @@
                     class="waves-effect waves-dark"
                     >
                     <span class="pcoded-micon"
-                        ><i class="fa fa-tasks"></i></span>
+                        ><i class="fa fa-file-excel-o"></i></span>
                     <span class="pcoded-mtext">Requests</span>
                     </a>
                     <ul class="pcoded-submenu">
@@ -307,7 +307,7 @@
                     class="waves-effect waves-dark"
                     >
                     <span class="pcoded-micon"
-                        ><i class="fa fa-tasks"></i></span>
+                        ><i class="fa fa-book"></i></span>
                     <span class="pcoded-mtext">Food Collection</span>
                     </a>
                     <ul class="pcoded-submenu">

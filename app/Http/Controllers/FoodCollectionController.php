@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Allocation;
-use App\Models\Beneficiary;
 use Illuminate\Http\Request;
 use App\Models\FoodCollection;
 use App\Models\FoodRequest;
-use App\Models\Jobcard;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,10 +34,10 @@ class FoodCollectionController extends Controller
     {
         $requests = FoodRequest::where('trash','=',1)
                                 ->where('status','=','approved')
-                                ->where('issued_on','=',null)
+                                ->whereNull('issued_on')
                                 ->get();
-        $jobcards = Jobcard::where('remaining','>',0)->where('card_type','=','food')->get();
-        return view('food_collections.create',compact('requests','jobcards'));
+
+        return view('food_collections.create',compact('requests'));
     }
 
     /**
@@ -65,107 +63,50 @@ class FoodCollectionController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
 
         } else {
+
             try {
-                // check the pin
-                $entered = $request->pin;
-                $user = User::where('paynumber','=',$request->paynumber)->first();
-                $request_detail = FoodRequest::where('allocation',$request->allocation)->first();
 
-                if (Hash::check($entered, $user->pin))
+                $frequest = FoodRequest::findOrFail($request->paynumber);
+                $user = User::where('paynumber',$frequest->paynumber)->first();
+
+                $collect = new FoodCollection();
+                $collect->paynumber = $request->input('paynumber');
+                $collect->jobcard = $request->input('jobcard');
+                $collect->frequest = $request->input('frequest');
+                $collect->allocation = $request->input('allocation');
+                $collect->issue_date = $request->input('issue_date');
+
+                if ($request->iscollector == 'self')
                 {
-                    // check if the jobcard jas remaining units
-                    $jobcard = Jobcard::where('card_number','=',$request->jobcard)->first();
+                    $collect->self = 1;
+                }
 
-                    if ($jobcard->remaining >= 1)
+                // check if pin is correct
+                if (Hash::check($request->pin,$user->pin))
+                {
+                    $collect->done_by = Auth::user()->id;
+                    $collect->updated_at = now();
+                    $collect->status = 1;
+                    $collect->save();
+
+                    if ($collect->save())
                     {
-                        $collection = new FoodCollection();
-                        $collection->paynumber = $request->paynumber;
-                        $collection->jobcard = $jobcard->card_number;
-                        $collection->issue_date = $request->issue_date;
-                        $collection->allocation = $request->allocation;
-                        $collection->frequest = $request->frequest;
-                        $collection->done_by = Auth::user()->full_name;
-                        $collection->status = 1;
+                        $frequest->status = "collected";
+                        $frequest->issued_on = now();
+                        $frequest->save();
 
-                        if ($request->iscollector == 'self')
-                        {
-                            $collection->self = 1;
+                        $allocation = Allocation::where('allocation',$request->allocation)->first();
+                        $allocation->food_allocation -= 1;
+                        $allocation->status = "collected";
+                        $allocation->save();
 
-                        } else {
-                            // check if id number is correct
-                            $collection->collected_by = $request->collected_by;
-                            $benef = Beneficiary::where('first_name',$request->collected_by)->first();
-
-                            if ($benef->id_number == $request->id_number)
-                            {
-                                $collection->id_number = $request->id_number;
-                                $collection->self = 0;
-
-                            } else {
-
-                                return back()->with('error','Entered ID Number does not match our records');
-                            }
-
-                        }
-
-                        $collection->save();
-
-                        if ($collection->save())
-                        {
-                            try {
-                                // updating allocation
-                                $user_allocat = Allocation::where('allocation',$collection->allocation)->first();
-                                $user_allocat->status = 'collected';
-                                $user_allocat->food_allocation -= 1;
-                                $user_allocat->save();
-
-                                // updating request
-                                $request_detail->status = 'collected';
-                                $request_detail->trash = 1;
-                                $request_detail->updated_at = now();
-                                $request_detail->issued_on = now();
-                                $request_detail->save();
-
-                                // updating user
-                                $collection->user->fcount -= 1;
-                                $collection->user->save();
-
-                                $job_month = $request_detail->paynumber.$jobcard->card_month;
-
-                                $jobcard->updated_at = now();
-
-                                if ($job_month == $request_detail->allocation)
-                                {
-                                    $jobcard->issued += 1;
-
-                                } else {
-
-                                    $jobcard->extras_previous += 1;
-                                }
-
-                                $jobcard->remaining -= 1;
-                                $jobcard->save();
-
-                                return redirect('fcollections')->with('success','Collection has been processed successfully');
-
-                            } catch (\Exception $e) {
-                                echo "error - ".$e;
-                            }
-
-                        }
-
-                    } else {
-
-                        return back()->with('error','Plese contact admin to open a new jobcard');
                     }
 
-                } else {
-
-                    return back()->with('error','Entered Pin did not match our records');
+                    return redirect('fcollections')->with('success','Collection has been processed successfully');
                 }
 
             } catch (\Exception $e) {
-                echo "Error - ".$e;
+                echo "error - ".$e;
             }
         }
     }
@@ -217,34 +158,43 @@ class FoodCollectionController extends Controller
         //
     }
 
-    public function getFoodRequest($paynumber)
+    public function getFoodRequest($id)
     {
-        $name = DB::table("food_requests")
-          ->where("paynumber",$paynumber)
-          ->where('deleted_at','!=',null)
+        $request = DB::table("food_requests")
+          ->where("id",$id)
           ->pluck("request");
 
-        return response()->json($name);
+        return response()->json($request);
     }
 
-    public function getFoodRequestAllocation($paynumber)
+    public function getFoodRequestAllocation($id)
     {
-        $name = DB::table("food_requests")
-          ->where("paynumber",$paynumber)
-          ->where('deleted_at','!=',null)
+        $allocation = DB::table("food_requests")
+          ->where("id",$id)
           ->pluck("allocation");
 
-        return response()->json($name);
+        return response()->json($allocation);
     }
 
-    public function getUserBeneficiaries($paynumber)
+    public function getUserBeneficiaries($id)
     {
-        $user = User::where('paynumber',$paynumber)->first()->id;
+        $request = FoodRequest::where('id',$id)->first();
+
+        $user = User::where('paynumber',$request->paynumber)->first();
 
         $beneficiaries = DB::table('beneficiaries')
-                            ->where('user_id','=',$user)
+                            ->where('user_id','=',$user->id)
                             ->pluck('first_name');
 
         return response()->json($beneficiaries);
+    }
+
+    public function getRequestJobcard($id)
+    {
+        $jobcard = DB::table("food_requests")
+          ->where("id",$id)
+          ->pluck("jobcard");
+
+        return response()->json($jobcard);
     }
 }

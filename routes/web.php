@@ -86,13 +86,13 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
     Route::get('/pending-requests','App\Http\Controllers\FoodRequestController@getPending');
 
     Route::get('/get-allocation-request/{paynumber}','App\Http\Controllers\FoodRequestController@getAllocation');
-    Route::get('/get-jobcard-request/{paynumber}','App\Http\Controllers\FoodRequestController@getRequestJobcard');
 
     // food collection
     Route::resource('fcollections', 'App\Http\Controllers\FoodCollectionController');
-    Route::get('getfoodrequest/{paynumber}','App\Http\Controllers\FoodCollectionController@getFoodRequest');
-    Route::get('getfrequestallocation/{paynumber}','App\Http\Controllers\FoodCollectionController@getFoodRequestAllocation');
-    Route::get('getuserbeneficiaries/{paynumber}','App\Http\Controllers\FoodCollectionController@getUserBeneficiaries');
+    Route::get('get-food-request/{id}','App\Http\Controllers\FoodCollectionController@getFoodRequest');
+    Route::get('getfrequestallocation/{id}','App\Http\Controllers\FoodCollectionController@getFoodRequestAllocation');
+    Route::get('getuserbeneficiaries/{id}','App\Http\Controllers\FoodCollectionController@getUserBeneficiaries');
+    Route::get('/get-jobcard-request/{id}','App\Http\Controllers\FoodCollectionController@getRequestJobcard');
 });
 
 Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger\App\Http\Controllers', 'middleware' => ['web', 'auth', 'activity','role:admin']], function () {
