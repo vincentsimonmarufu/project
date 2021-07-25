@@ -30,4 +30,14 @@ class FoodRequest extends Model
     {
         return $this->belongsTo(User::class,'paynumber','paynumber');
     }
+
+    public function allocation()
+    {
+        return $this->belongsTo(Allocation::class);
+    }
+
+    public function approve()
+    {
+        return $this->hasOne(User::class,'paynumber','approver');
+    }
 }

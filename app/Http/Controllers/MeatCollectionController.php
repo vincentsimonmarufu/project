@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Allocation;
 use App\Models\Beneficiary;
-use Illuminate\Http\Request;
-use App\Models\FoodCollection;
 use App\Models\FoodRequest;
+use App\Models\MeatCollection;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class FoodCollectionController extends Controller
+class MeatCollectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +22,8 @@ class FoodCollectionController extends Controller
      */
     public function index()
     {
-        $collections = FoodCollection::latest()->get();
-        return view('food_collections.index',compact('collections'));
+        $collections = MeatCollection::latest()->get();
+        return view('mcollections.index',compact('collections'));
     }
 
     /**
@@ -36,10 +36,9 @@ class FoodCollectionController extends Controller
         $requests = FoodRequest::where('trash','=',1)
                                 ->where('status','=','approved')
                                 ->whereNull('issued_on')
-                                ->where('type','=','food')
+                                ->where('type','=','meat')
                                 ->get();
-
-        return view('food_collections.create',compact('requests'));
+        return view('mcollections.create',compact('requests'));
     }
 
     /**
@@ -53,8 +52,8 @@ class FoodCollectionController extends Controller
         $validator = Validator::make($request->all(),[
             'paynumber' => 'required',
             'jobcard' => 'required',
-            'frequest' => 'required|unique:food_collections,frequest',
-            'allocation' => 'required|unique:food_collections,allocation',
+            'frequest' => 'required|unique:meat_collections,frequest',
+            'allocation' => 'required|unique:meat_collections,allocation',
             'issue_date' => 'required',
             'iscollector' => 'required',
             'pin' => 'required',
@@ -71,7 +70,7 @@ class FoodCollectionController extends Controller
                 $frequest = FoodRequest::findOrFail($request->paynumber);
                 $user = User::where('paynumber',$frequest->paynumber)->first();
 
-                $collect = new FoodCollection();
+                $collect = new MeatCollection();
                 $collect->paynumber = $user->paynumber;
                 $collect->jobcard = $request->input('jobcard');
                 $collect->frequest = $request->input('frequest');
@@ -112,16 +111,16 @@ class FoodCollectionController extends Controller
                         $frequest->save();
 
                         $allocation = Allocation::where('allocation',$request->allocation)->first();
-                        $allocation->food_allocation -= 1;
+                        $allocation->meet_allocation -= 1;
                         $allocation->status = "collected";
                         $allocation->save();
 
-                        $user->fcount -= 1;
+                        $user->mcount -= 1;
                         $user->save();
 
                     }
 
-                    return redirect('fcollections')->with('success','Collection has been processed successfully');
+                    return redirect('mcollections')->with('success','Collection has been processed successfully');
                 }
 
             } catch (\Exception $e) {
@@ -133,23 +132,23 @@ class FoodCollectionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\MeatCollection  $meatCollection
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $collection = FoodCollection::findOrFail($id);
+        $collection = MeatCollection::findOrFail($id);
 
-        return view('food_collections.show',compact('collection'));
+        return view('mcollections.show',compact('collection'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\MeatCollection  $meatCollection
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(MeatCollection $meatCollection)
     {
         //
     }
@@ -158,10 +157,10 @@ class FoodCollectionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\MeatCollection  $meatCollection
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, MeatCollection $meatCollection)
     {
         //
     }
@@ -169,51 +168,20 @@ class FoodCollectionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\MeatCollection  $meatCollection
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(MeatCollection $meatCollection)
     {
         //
     }
 
-    public function getFoodRequest($id)
+    public function getRequestType($id)
     {
-        $request = DB::table("food_requests")
+        $type = DB::table("food_requests")
           ->where("id",$id)
-          ->pluck("request");
+          ->pluck("type");
 
-        return response()->json($request);
-    }
-
-    public function getFoodRequestAllocation($id)
-    {
-        $allocation = DB::table("food_requests")
-          ->where("id",$id)
-          ->pluck("allocation");
-
-        return response()->json($allocation);
-    }
-
-    public function getUserBeneficiaries($id)
-    {
-        $request = FoodRequest::where('id',$id)->first();
-
-        $user = User::where('paynumber',$request->paynumber)->first();
-
-        $beneficiaries = DB::table('beneficiaries')
-                            ->where('user_id','=',$user->id)
-                            ->pluck('first_name','id_number');
-
-        return response()->json($beneficiaries);
-    }
-
-    public function getRequestJobcard($id)
-    {
-        $jobcard = DB::table("food_requests")
-          ->where("id",$id)
-          ->pluck("jobcard");
-
-        return response()->json($jobcard);
+        return response()->json($type);
     }
 }

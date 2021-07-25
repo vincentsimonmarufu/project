@@ -282,10 +282,26 @@
                     </li>
                     <li class="">
                         <a
+                        href="{{ url('/get-daily-approval') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Daily Schedule</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
                         href="{{ url('approved-requests') }}"
                         class="waves-effect waves-dark"
                         >
                         <span class="pcoded-mtext">Approved Requests</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href="{{ url('collected-requests') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Collected Requests</span>
                         </a>
                     </li>
                     <li class="">
@@ -335,6 +351,73 @@
                         <span class="pcoded-mtext">Extras / Previous</span>
                         </a>
                     </li>
+                    </ul>
+                </li>
+
+                <li class="pcoded-hasmenu">
+                    <a
+                    href="javascript:void(0)"
+                    class="waves-effect waves-dark"
+                    >
+                    <span class="pcoded-micon"
+                        ><i class="fa fa-book"></i></span>
+                    <span class="pcoded-mtext">Meat Collection</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                    <li class="">
+                        <a
+                        href="{{ url('mcollections/create') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Add New</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href="{{ url('mcollections') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Collections</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href=""
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Extras / Previous</span>
+                        </a>
+                    </li>
+                    </ul>
+                </li>
+
+                <li class="pcoded-hasmenu">
+                    <a
+                    href="javascript:void(0)"
+                    class="waves-effect waves-dark"
+                    >
+                    <span class="pcoded-micon"
+                        ><i class="fa fa-book"></i></span>
+                    <span class="pcoded-mtext">Reports</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                    <li class="">
+                        <a
+                        href="{{ url('get-month-report') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Monthly</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href="{{ url('user-collection-report') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">User Collection</span>
+                        </a>
+                    </li>
+
                     </ul>
                 </li>
 

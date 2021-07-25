@@ -17,7 +17,7 @@
             <div class="col-lg-8">
                 <div class="page-header-title">
                     <div class="d-inline">
-                        <h5>Food Collection Report</h5>
+                        <h5>Collection Report</h5>
                         <span class="pcoded-mtext"> Generate Report using Pay Number</span>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                         </li>
 
                         <li class="breadcrumb-item">
-                            <a href="{{ url('user-report') }}">User Report</a>
+                            <a href="{{ url('user-collection-report') }}">User Report</a>
                         </li>
                     </ul>
                 </div>
@@ -53,14 +53,25 @@
                                 </div>
                                 <div class="card-block" style="padding-top: 7px;margin-top:0;">
                                     <h4 class="sub-title"></h4>
-                                    <form method="POST" action="{{ url('/user-report-post') }}" enctype="multipart/form-data">
+                                    <form method="POST" action="{{ url('/user-collection-post') }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group row">
-                                            <label for="paynumber" class="col-sm-3 col-form-label"
-                                            >Pay Number : </label
-                                            >
-                                            <div class="col-sm-7">
-                                                <select name="paynumber" class="form-control" id="paynumber" style="width: 100%;" required="" autofocus>
+                                            <div class="col-sm-5">
+                                                <select name="collection_type" id="collection_type" class="form-control" style="width: 100%;">
+                                                    <option value="">Select collection type</option>
+                                                    <option value="food">Food Collection</option>
+                                                    <option value="meat">Meat Collection</option>
+                                                </select>
+
+                                                @error('collection_type')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong> {{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-sm-5">
+                                                <select name="paynumber" class="form-control" id="paynumber" style="width: 100%;" required="" style="width: 100%;" autofocus>
                                                     <option value="">Select pay number</option>
                                                     @if ($users)
                                                         @foreach ($users as $user)
@@ -68,22 +79,28 @@
                                                         @endforeach
                                                     @endif
                                                 </select>
+
+                                                @error('paynumber')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong> {{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
-                                            @error('paynumber')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong> {{ $message }}</strong>
-                                                </span>
-                                            @enderror
+
                                             <div class="col-sm-2">
                                                 <button class="btn waves-effect btn-round waves-light btn-block btn-sm btn-success">Search</button>
                                             </div>
+
+
+
                                         </div>
 
                                     </form>
 
                                     {{-- collections content comes here  --}}
                                     @if (isset($user_collections))
-                                        <div class="dt-responsive table-responsive mt-3">
+                                        <h4 class="sub-title mt-4">Showing all <span style="font-weight: bold; text-transform:capitalize;">{{ $ctype }}</span> collections for {{ $user->full_name }}</h4>
+                                        <div class="dt-responsive table-responsive">
                                             <table
                                                 id="basic-btn"
                                                 class="table table-bordered nowrap"
@@ -106,13 +123,19 @@
                                                     @foreach ($user_collections as $collection )
                                                         <tr>
                                                             <td>{{ $collection->id }}</td>
-                                                            <td>{{ $collection->department }}</td>
+                                                            <td>{{ $collection->user->department->name }}</td>
                                                             <td>{{ $collection->paynumber }}</td>
-                                                            <td>{{ $collection->name }}</td>
-                                                            <td>{{ $collection->card_number }}</td>
+                                                            <td>{{ $collection->user->full_name }}</td>
+                                                            <td>{{ $collection->jobcard }}</td>
                                                             <td>{{ $collection->issue_date }}</td>
                                                             <td>{{ $collection->allocation }}</td>
-                                                            <td>{{ $collection->collected_by }}</td>
+                                                            <td>
+                                                                @if($collection->self == 1)
+                                                                    SELF
+                                                                @else
+                                                                    {{ $collection->collected_by }}
+                                                                @endif
+                                                            </td>
                                                             <td>{{ $collection->id_number }}</td>
                                                         </tr>
                                                     @endforeach
@@ -152,6 +175,10 @@
         $(document).ready(function() {
             $('#paynumber').select2({
                 placeholder:'Please select pay number.',
+            });
+
+            $('#collection_type').select2({
+                placeholder:'Please user collection type.',
             });
         });
     </script>

@@ -1,24 +1,19 @@
 @extends('layouts.app')
 
-@section('template_title')
-    Showing all food collections
-@endsection
-
 @section('template_linked_css')
 <link rel="stylesheet" type="text/css" href="{{ asset('dash_resource/css/datatables.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('dash_resource/css/buttons.datatables.min.css') }}">
 @endsection
 
 @section('content')
-
 <div class="page-header card">
     <div class="row align-items-end">
         @include('partials.form-status')
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Food Collection</h5>
-                    <span class="pcoded-mtext">Summary of all collected food humbers</span>
+                    <h5>Requested Humbers</h5>
+                    <span class="pcoded-mtext"> Overview of Collected Requests</span>
                 </div>
             </div>
         </div>
@@ -26,15 +21,15 @@
             <div class="page-header-breadcrumb">
                 <ul class="breadcrumb breadcrumb-title">
                     <li class="breadcrumb-item">
-                        <a href=""
+                        <a href="{{ url('/home') }}"
                         ><i class="feather icon-home"></i
                         ></a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('fcollections') }}">Food Collections</a>
+                        <a href="{{ url('frequests') }}">Food Requests</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('fcollections/create') }}">Add New</a>
+                        <a href="{{ url('frequests/create') }}">Add New</a>
                     </li>
                 </ul>
             </div>
@@ -49,6 +44,9 @@
                 <div class="row">
                     <div class="col-sm-12">
                       <div class="card">
+                        <div class="card-header" style="margin-bottom: 0;padding-bottom:0;">
+                            <h4 style="font-size:16px;margin-bottom:0;">Showing all collected requests</h4>
+                        </div>
                         <div class="card-block">
                           <div class="dt-responsive table-responsive">
                             <table
@@ -57,36 +55,32 @@
                             >
                               <thead>
                                 <tr>
-                                  <th>Id</th>
-                                  <th>Pay Number</th>
+                                  <th>ID</th>
+                                  <th>Paynumber</th>
                                   <th>Name</th>
                                   <th>Department</th>
-                                  <th>Job Card Number</th>
-                                  <th>Issue Date</th>
-                                  <th>Month</th>
-                                  <th>Collected By</th>
-                                  <th>Action</th>
+                                  <th>Allocation</th>
+                                  <th>Done By</th>
+                                  <th>Requested On</th>
+                                  <th>Issued On</th>
+                                  <th>Request Type</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                @if ($collections)
-                                    @foreach ($collections as $collection )
+                                @if ($frequests)
+                                    @foreach ($frequests as $frequest )
                                         <tr>
-                                            <td>{{ $collection->id }}</td>
-                                            <td>{{ $collection->paynumber }}</td>
-                                            <td>{{ $collection->user->full_name }}</td>
-                                            <td>{{ $collection->user->department->name }}</td>
-                                            <td>{{ $collection->jobcard }}</td>
-                                            <td>{{ $collection->issue_date }}</td>
-                                            <td>{{ $collection->allocation }}</td>
+                                            <td>{{ $frequest->id }}</td>
+                                            <td>{{ $frequest->paynumber }}</td>
+                                            <td>{{ $frequest->user->full_name }}</td>
+                                            <td>{{ $frequest->department }}</td>
+                                            <td>{{ $frequest->allocation }}</td>
+                                            <td>{{ $frequest->done_by }}</td>
+                                            <td>{{ $frequest->created_at }}</td>
                                             <td>
-                                                @if($collection->self == 1)
-                                                    SELF
-                                                @else
-                                                    {{ $collection->collected_by }}
-                                                @endif
+                                                {{ $frequest->issued_on }}
                                             </td>
-                                            <td><a href="{{ route('fcollections.show',$collection->id) }}" data-toggle="tooltip" title="View Details" class="d-inline btn btn-sm btn-success"><i class="fa fa-eye"></i></a></td>
+                                            <td>{{ $frequest->type }}</td>
                                         </tr>
                                     @endforeach
                                 @endif
@@ -101,9 +95,6 @@
         </div>
     </div>
 </div>
-
-@include('departments.show')
-
 
 @endsection
 
@@ -120,4 +111,5 @@
 <script src="{{ asset('dash_resource/js/datatables.bootstrap4.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('dash_resource/js/datatables.responsive.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('dash_resource/js/extension-btns-custom.js') }}" type="text/javascript"></script>
+
 @endsection

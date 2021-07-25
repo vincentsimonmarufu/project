@@ -4,9 +4,6 @@
     Reject Request no: {{ $frequest->request }}
 @endsection
 
-@section('template_linked_css')
-    <link rel="stylesheet" href="{{ asset('select2/css/select2.min.css') }}">
-@endsection
 @section('content')
 <div class="page-header card">
     <div class="row align-items-end">
@@ -15,7 +12,7 @@
             <div class="page-header-title">
                 <div class="d-inline">
                     <h5>Food Requests</h5>
-                    <span class="pcoded-mtext"> Add New</span>
+                    <span class="pcoded-mtext"> Reject Request for {{ $frequest->user->full_name }}</span>
                 </div>
             </div>
         </div>
@@ -47,35 +44,36 @@
                     <div class="col-sm-12">
                       <div class="card">
                         <div class="card-header pb-0">
-                            <h4 style="font-size:18px;">Create new humber request</h4>
-
-                            <p class="pt-2">Please note that if request type is extra humber , allocation is not considered.</p>
+                            <h4 style="font-size:18px;">Reject Request</h4>
+                            @if($frequest->status == "approved" || $frequest->status == "collected")
+                                <p>Please note, the selected request has been <strong class="d-inline" style="font-weight: bold; text-transform:uppercase;">{{ $frequest->status }}</strong> already.</p>
+                            @endif
                         </div>
                         <div class="card-block" style="padding-top: 0;margin-top:0;">
                             <h4 class="sub-title"></h4>
-                            <form method="POST" action="{{ route('frequests.store') }}">
+                            <form method="POST" action="{{ route('frequests.update',$frequest->id) }}">
                                 @csrf
+                                @method('put')
                                 <div class="form-group row">
-                                    <label for="department" class="col-sm-2 col-form-label"
-                                        >Department : </label
+                                    <label for="paynumber" class="col-sm-2 col-form-label"
+                                        >Paynumber : </label
                                     >
                                     <div class="col-sm-10">
-                                        <input type="text" readonly name="department" id="department" class="form-control @error('department') is-invalid @enderror" placeholder="e.g Accounts" required="" />
+                                        <input type="text" value="{{ $frequest->paynumber }}" name="paynumber" id="paynumber" class="form-control @error('paynumber') is-invalid @enderror" required="" />
                                     </div>
-                                    @error('department')
+                                    @error('paynumber')
                                         <span class="invalid-feedback" role="alert">
                                             <strong> {{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
 
-
                                 <div class="form-group row">
                                     <label for="name" class="col-sm-2 col-form-label"
-                                        >Name : </label
+                                        >Full Name : </label
                                     >
                                     <div class="col-sm-10">
-                                        <input type="text" readonly name="name" id="username" class="form-control @error('name') is-invalid @enderror" placeholder="e.g Vincent" required="" />
+                                        <input type="text" value="{{ $frequest->user->full_name }}" name="name" id="name" class="form-control @error('name') is-invalid @enderror" required="" />
                                     </div>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -85,15 +83,27 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="allocation" class="col-sm-2 col-form-label"
-                                        >Allocation : </label
+                                    <label for="department" class="col-sm-2 col-form-label"
+                                        >Department : </label
                                     >
                                     <div class="col-sm-10">
-                                        <select name="allocation" id="allocation" class="form-control" style="width: 100%">
-                                            <option value="">Please select allocation</option>
-                                        </select>
+                                        <input type="text" value="{{ $frequest->user->department->name }}" name="department" id="department" class="form-control @error('department') is-invalid @enderror" required="" />
                                     </div>
-                                    @error('allocation')
+                                    @error('department')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong> {{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="reason" class="col-sm-2 col-form-label"
+                                        >Reason For Rejection : </label
+                                    >
+                                    <div class="col-sm-10">
+                                        <textarea name="reason" id="reason" class="form-control"  rows="5"></textarea>
+                                    </div>
+                                    @error('reason')
                                         <span class="invalid-feedback" role="alert">
                                             <strong> {{ $message }}</strong>
                                         </span>
@@ -101,7 +111,11 @@
                                 </div>
 
                                 <div class="form-group row justify-content-end">
-                                    <button class="btn waves-effect btn-round waves-light btn-sm mr-4 btn-primary">Send Request</button>
+                                    <button class="btn waves-effect btn-round waves-light btn-sm mr-4 btn-primary"
+                                    @if($frequest->status == "approved" || $frequest->status == "collected")
+                                        disabled
+                                    @endif
+                                    >Reject Request</button>
                                 </div>
                             </form>
                         </div>
@@ -116,89 +130,5 @@
 @endsection
 
 @section('footer_scripts')
-<script src="{{ asset('select2/js/select2.min.js') }}"></script>
-<script type="text/javascript">
-    $('#paynumber').select2({
-        placeholder:'select pay number'
-    }).change(function(){
-        var paynumber = $(this).val();
-        var _token = $("input[name='_token']").val();
-        if(paynumber){
-            $.ajax({
-                type:"get",
-                url:"/getusername/"+paynumber,
-                _token: _token ,
-                success:function(res)
-                {
-                    if(res)
-                    {
-                        $("#username").empty();
-                        $.each(res,function(key, value){
 
-                            $("#username").val(value);
-                        });
-
-                    }
-                }
-
-            });
-
-            $.ajax({
-                type:"get",
-                url:"/get-user-department/"+paynumber,
-                _token: _token ,
-                success:function(res)
-                {
-                    if(res)
-                    {
-                        $("#department").empty();
-                        $.each(res,function(key, value){
-
-                            $("#department").val(value);
-                        });
-
-                    }
-                }
-
-            });
-
-            $.ajax({
-                type:"get",
-                url:"/get-allocation-request/"+paynumber,
-                _token: _token ,
-                success:function(res) {
-                    if(res) {
-                        $("#allocation").empty();
-                        $.each(res,function(key, value){
-                            $("#allocation").append('<option value="'+value+'">'+value+'</option>');
-                        });
-                    }
-                }
-
-            });
-        }
-    });
-
-</script>
-<script>
-    $(document).ready(function() {
-        $('#card_number').select2({
-            placeholder:'select card number'
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#allocation').select2({
-            placeholder:'Please select allocation'
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#type').select2({
-            placeholder:'Please select request type'
-        });
-    });
-</script>
 @endsection

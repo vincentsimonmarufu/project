@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Showing all food collections
+    Showing all meat collections
 @endsection
 
 @section('template_linked_css')
@@ -17,8 +17,8 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Food Collection</h5>
-                    <span class="pcoded-mtext">Summary of all collected food humbers</span>
+                    <h5>Meat Collections</h5>
+                    <span class="pcoded-mtext">Summary of all collected meat humbers</span>
                 </div>
             </div>
         </div>
@@ -31,10 +31,10 @@
                         ></a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('fcollections') }}">Food Collections</a>
+                        <a href="{{ url('mcollections') }}">Meat Collections</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('fcollections/create') }}">Add New</a>
+                        <a href="{{ url('mcollections/create') }}">Add New</a>
                     </li>
                 </ul>
             </div>
@@ -86,7 +86,7 @@
                                                     {{ $collection->collected_by }}
                                                 @endif
                                             </td>
-                                            <td><a href="{{ route('fcollections.show',$collection->id) }}" data-toggle="tooltip" title="View Details" class="d-inline btn btn-sm btn-success"><i class="fa fa-eye"></i></a></td>
+                                            <td><a href="{{ route('mcollections.show',$collection->id) }}" data-toggle="tooltip" title="View Details" class="d-inline btn btn-sm btn-success"><i class="fa fa-eye"></i></a></td>
                                         </tr>
                                     @endforeach
                                 @endif

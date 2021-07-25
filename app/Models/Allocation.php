@@ -34,4 +34,9 @@ class Allocation extends Model
         return $this->hasOne(FoodCollection::class,'allocation','allocation');
     }
 
+    public function frequest()
+    {
+        return $this->hasMany(FoodRequest::class);
+    }
+
 }

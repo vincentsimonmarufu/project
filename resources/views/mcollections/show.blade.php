@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Collection details for {{ $collection->allocation }}
+    Meat collection details for {{ $collection->allocation }}
 @endsection
 
 @section('template_linked_css')
@@ -14,7 +14,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Food Collection Details</h5>
+                    <h5>Users</h5>
                     <span class="pcoded-mtext"> Showing collection details for allocation number {{ $collection->allocation }}</span>
                 </div>
             </div>
@@ -28,10 +28,10 @@
                         ></a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('fcollections') }}">Food Collection</a>
+                        <a href="{{ url('users') }}">Users</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('fcollections/create') }}">Add New</a>
+                        <a href="{{ url('users/create') }}">Add New</a>
                     </li>
                 </ul>
             </div>
@@ -119,7 +119,7 @@
                               <li class="">
                                 <h6>Job Card Number : </h6>
                                 <p>
-                                  {{ $collection->card_number }}
+                                  {{ $collection->jobcard }}
                                 </p>
                               </li>
                               <li class="">

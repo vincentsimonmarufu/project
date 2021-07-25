@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Add new collection
+    Add New Meat collection
 @endsection
 
 @section('template_linked_css')
@@ -45,8 +45,8 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Food Collections</h5>
-                    <span class="pcoded-mtext"> Add food collection</span>
+                    <h5>Meat Collections</h5>
+                    <span class="pcoded-mtext"> Add Meat collection</span>
                 </div>
             </div>
         </div>
@@ -59,10 +59,10 @@
                         ></a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('fcollections') }}">Food Collections</a>
+                        <a href="{{ url('mcollections') }}">Meat Collections</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('fcollections/create') }}">Add New</a>
+                        <a href="{{ url('mcollections/create') }}">Add New</a>
                     </li>
                 </ul>
             </div>
@@ -78,12 +78,12 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header pb-0">
-                            <h4 style="margin-bottom:0">Add Collection.</h4>
+                            <h4 style="margin-bottom:0">Add To Collection.</h4>
                             <span>Please complete the request details before proceeding feather with the application</span>
                         </div>
                             <div class="card-body">
 
-                                <form method="POST" action="{{ url('fcollections') }}" id="form-horizontal"  role="form" class="form-horizontal form-wizard-wrapper">
+                                <form method="POST" action="{{ url('mcollections') }}" id="form-horizontal"  role="form" class="form-horizontal form-wizard-wrapper">
 
                                     @csrf
 
@@ -171,10 +171,10 @@
                                             </div>
                                         </div>
 
-                                        <div class="row mb-4 mb-2">
+                                        <div class="row mb-4 mb-4">
                                             <div class="col-lg-12">
                                                 <label for="type">Request Type *</label>
-                                                <input type="text" name="type" id="type" class="form-control" placeholder="Food Humber">
+                                                <input type="text" name="type" id="type" class="form-control" placeholder="Meat Humber">
 
                                                 @error('type')
                                                     <span class="invalid-feedback" role="alert">
@@ -185,6 +185,7 @@
 
                                         </div>
 
+
                                         <div class="row select-display beneficiary-visible">
                                             <div class="col-lg-12">
                                                 <fieldset class="scheduler-border">
@@ -192,7 +193,7 @@
                                                     <div class="control-group">
                                                         <div class="row">
                                                             <div class="col-lg-12">
-                                                                <label for="collected_by">ID Number and Full Name</label>
+                                                                <label for="collected_by">Beneficiary Name</label>
                                                                 <select name="collected_by" id="collected_by" class="form-control" style="width: 100%;">
                                                                     <option value="">Please select employee beneficiary</option>
                                                                 </select>
@@ -203,7 +204,6 @@
                                                                     </span>
                                                                 @enderror
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </fieldset>

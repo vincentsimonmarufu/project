@@ -50,16 +50,16 @@
                         </div>
                         <div class="card-block" style="padding-top: 7px;margin-top:0;">
                             <h4 class="sub-title"></h4>
-                            <form method="POST" action="{{ url('/allocation-import-send') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ url('/import-jobcard') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
-                                    <label for="allocation" class="col-sm-2 col-form-label"
+                                    <label for="jobcard" class="col-sm-2 col-form-label"
                                         >Choose file : </label
                                     >
                                     <div class="col-sm-10">
-                                        <input type="file" name="allocation" id="allocation" class="form-control">
+                                        <input type="file" name="jobcard" id="jobcard" class="form-control">
                                     </div>
-                                    @error('allocation')
+                                    @error('jobcard')
                                         <span class="invalid-feedback" role="alert">
                                             <strong> {{ $message }}</strong>
                                         </span>

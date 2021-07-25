@@ -47,12 +47,14 @@
                     <div class="col-sm-12">
                       <div class="card">
                         <div class="card-header pb-0">
-                            <h4 style="font-size: 18px;">Create new job card</h4>
+                            <h4 style="font-size: 18px;">Update job card details</h4>
+                            <p> <strong style="font-weight:bold">NB: </strong> Please note that card number, date opened, card type and month can only be updated before the job card is used.</p>
                         </div>
                         <div class="card-block pt-0 mt-0">
                             <h4 class="sub-title"></h4>
-                            <form method="POST" action="{{ route('jobcards.store') }}">
+                            <form method="POST" action="{{ route('jobcards.update',$jobcard) }}">
                                 @csrf
+                                @method('put')
                                 <div class="form-group row">
                                     <label for="card_number" class="col-sm-2 col-form-label"
                                         >Card Number : </label
@@ -90,6 +92,14 @@
                                             <option value="February@php echo date('Y') @endphp">February@php echo date('Y') @endphp</option>
                                             <option value="March@php echo date('Y') @endphp">March@php echo date('Y') @endphp</option>
                                             <option value="April@php echo date('Y') @endphp">April@php echo date('Y') @endphp</option>
+                                            <option value="May@php echo date('Y') @endphp">May@php echo date('Y') @endphp</option>
+                                            <option value="June@php echo date('Y') @endphp">June@php echo date('Y') @endphp</option>
+                                            <option value="July@php echo date('Y') @endphp">July@php echo date('Y') @endphp</option>
+                                            <option value="July@php echo date('Y') @endphp">August@php echo date('Y') @endphp</option>
+                                            <option value="July@php echo date('Y') @endphp">September@php echo date('Y') @endphp</option>
+                                            <option value="July@php echo date('Y') @endphp">October@php echo date('Y') @endphp</option>
+                                            <option value="July@php echo date('Y') @endphp">November@php echo date('Y') @endphp</option>
+                                            <option value="July@php echo date('Y') @endphp">Devember@php echo date('Y') @endphp</option>
                                         </select>
                                     </div>
                                     @error('card_month')

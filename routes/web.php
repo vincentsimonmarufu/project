@@ -71,7 +71,7 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
     Route::get('restore-job/{id}','App\Http\Controllers\SoftDeleteJobcardsController@restoreJob');
     Route::get('get-jobcard-import','App\Http\Controllers\JobcardsController@importJobcards');
     Route::post('import-jobcard','App\Http\Controllers\JobcardsController@uploadJobcards');
-    Route::get('/jobcard-download','App\Http\Controllers\JobcardsController@downloadAllocationForm');
+    Route::get('/jobcard-download','App\Http\Controllers\JobcardsController@downloadJobcardForm');
 
     // food request
     Route::resource('frequests','App\Http\Controllers\FoodRequestController');
@@ -84,8 +84,11 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
 
     Route::get('/approved-requests','App\Http\Controllers\FoodRequestController@getApproved');
     Route::get('/pending-requests','App\Http\Controllers\FoodRequestController@getPending');
+    Route::get('/collected-requests','App\Http\Controllers\FoodRequestController@getCollectedRequests');
 
     Route::get('/get-allocation-request/{paynumber}','App\Http\Controllers\FoodRequestController@getAllocation');
+    Route::get('/get-daily-approval','App\Http\Controllers\FoodRequestController@dailyApproval');
+    Route::post('/get-daily-post','App\Http\Controllers\FoodRequestController@dailyApprovalSearch')->name("daily");
 
     // food collection
     Route::resource('fcollections', 'App\Http\Controllers\FoodCollectionController');
@@ -93,11 +96,23 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
     Route::get('getfrequestallocation/{id}','App\Http\Controllers\FoodCollectionController@getFoodRequestAllocation');
     Route::get('getuserbeneficiaries/{id}','App\Http\Controllers\FoodCollectionController@getUserBeneficiaries');
     Route::get('/get-jobcard-request/{id}','App\Http\Controllers\FoodCollectionController@getRequestJobcard');
+
+    // meat collection
+    Route::resource('mcollections', 'App\Http\Controllers\MeatCollectionController');
+    Route::get('/get-request-type/{id}','App\Http\Controllers\MeatCollectionController@getRequestType');
+
+    // Reports
+    Route::get('user-collection-report','App\Http\Controllers\ReportsController@getUserCollection');
+    Route::post('user-collection-post','App\Http\Controllers\ReportsController@postUserCollection');
+
+    Route::get('get-month-report','App\Http\Controllers\ReportsController@getMonthReport');
+    Route::post('get-month-post','App\Http\Controllers\ReportsController@postMonthReport');
+
 });
 
 Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger\App\Http\Controllers', 'middleware' => ['web', 'auth', 'activity','role:admin']], function () {
 
-    // Dashboards
+    // Activity
     Route::get('/', 'LaravelLoggerController@showAccessLog')->name('activity');
     Route::get('/cleared', ['uses' => 'LaravelLoggerController@showClearedActivityLog'])->name('cleared');
 
@@ -110,3 +125,6 @@ Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger
     Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
     Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
 });
+
+
+    Route::get('email-approve/{id}/{approver}','App\Http\Controllers\FoodRequestController@emailApprove');

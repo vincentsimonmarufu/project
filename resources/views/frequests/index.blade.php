@@ -60,7 +60,7 @@
                                   <th>Name</th>
                                   <th>Department</th>
                                   <th>Allocation</th>
-                                  <th>Done By</th>
+                                  <th>Approved By</th>
                                   <th>Requested On</th>
                                   <th>Issued On</th>
                                   <th>Status</th>
@@ -77,7 +77,7 @@
                                             <td>{{ $frequest->user->full_name }}</td>
                                             <td>{{ $frequest->department }}</td>
                                             <td>{{ $frequest->allocation }}</td>
-                                            <td>{{ $frequest->done_by }}</td>
+                                            <td>{{ $frequest->approve->name }}</td>
                                             <td>{{ $frequest->created_at }}</td>
                                             <td>
                                                 {{ $frequest->issued_on }}
@@ -107,10 +107,10 @@
                                             <td style="white-space: nowrap;width:20%;">
                                                 <a href="{{ url('approve-request/'.$frequest->id) }}"  data-toggle="tooltip" title="Approve Request" class="d-inline btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
                                                 <a href="{{ url('reject-request/'.$frequest->id) }}" data-toggle="tooltip" title="Reject Request" class="d-inline btn btn-success btn-sm">x</a>
-                                                <form method="POST" action="" class="d-inline">
+                                                <form method="POST" action="{{ route('frequests.destroy',$frequest->id) }}" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="d-inline btn-sm btn btn-danger" data-toggle="tooltip" title="Delete Distribution"><i class="fa fa-trash-o"></i></button>
+                                                    <button class="d-inline btn-sm btn btn-danger" data-toggle="tooltip" title="Delete Request"><i class="fa fa-trash-o"></i></button>
                                                 </form>
                                             </td>
                                         </tr>

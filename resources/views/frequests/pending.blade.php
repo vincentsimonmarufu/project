@@ -12,8 +12,8 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Food Distribution</h5>
-                    <span class="pcoded-mtext"> Food humber distribution overview</span>
+                    <h5>Requested Humbers</h5>
+                    <span class="pcoded-mtext"> Overview of Pending Requests</span>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                         ></a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('frequests') }}">Fdistribution</a>
+                        <a href="{{ url('frequests') }}">Food Requests</a>
                     </li>
                     <li class="breadcrumb-item">
                         <a href="{{ url('frequests/create') }}">Add New</a>
@@ -45,7 +45,7 @@
                     <div class="col-sm-12">
                       <div class="card">
                         <div class="card-header" style="margin-bottom: 0;padding-bottom:0;">
-                            <h4 style="font-size:16px;margin-bottom:0;">Showing all humbers distributed</h4>
+                            <h4 style="font-size:16px;margin-bottom:0;">Showing all pending requests</h4>
                         </div>
                         <div class="card-block">
                           <div class="dt-responsive table-responsive">
@@ -61,7 +61,8 @@
                                   <th>Department</th>
                                   <th>Allocation</th>
                                   <th>Done By</th>
-                                  <th>Date created</th>
+                                  <th>Requested On</th>
+                                  <th>Issued On</th>
                                   <th>Status</th>
                                   <th>Request Type</th>
                                   <th>Action</th>
@@ -78,6 +79,9 @@
                                             <td>{{ $frequest->allocation }}</td>
                                             <td>{{ $frequest->done_by }}</td>
                                             <td>{{ $frequest->created_at }}</td>
+                                            <td>
+                                                {{ $frequest->issued_on }}
+                                            </td>
                                             <td>
                                                 @if ($frequest->status == 'not approved')
                                                     @php
@@ -102,7 +106,7 @@
                                             <td>{{ $frequest->type }}</td>
                                             <td style="white-space: nowrap;width:20%;">
                                                 <a href="{{ url('approve-request/'.$frequest->id) }}"  data-toggle="tooltip" title="Approve Request" class="d-inline btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
-                                                <a href="{{ url('reject-request/'.$frequest->id) }}" data-toggle="tooltip" title="Reject Request" class="d-inline btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
+                                                <a href="{{ url('reject-request/'.$frequest->id) }}" data-toggle="tooltip" title="Reject Request" class="d-inline btn btn-success btn-sm">x</a>
                                                 <form method="POST" action="" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
@@ -139,5 +143,4 @@
 <script src="{{ asset('dash_resource/js/datatables.bootstrap4.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('dash_resource/js/datatables.responsive.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('dash_resource/js/extension-btns-custom.js') }}" type="text/javascript"></script>
-
 @endsection

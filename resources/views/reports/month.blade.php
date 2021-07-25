@@ -59,27 +59,31 @@
                         </div>
                         <div class="card-block" style="padding-top: 7px;margin-top:0;">
                             <h4 class="sub-title"></h4>
-                            <form method="POST" action="{{ url('/month-report-post') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ url('/get-month-post') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group row">
-                                    <label for="select_type" class="col-sm-3 col-form-label"
-                                        >Distribution Month : </label
-                                    >
-                                    <div class="col-sm-7">
-                                        <select name="month" class="form-control" id="month" style="width: 100%;" required="" autofocus>
-                                            <option value="">Select month</option>
-                                            @if ($months)
-                                                @foreach ($months as $month)
-                                                    <option value="{{ $month->allocation }}">{{ $month->allocation }}</option>
-                                                @endforeach
-                                            @endif
+                                    <div class="col-sm-5">
+                                        <select name="type" id="type" class="form-control" style="width: 100%;">
+                                            <option value="">Select collection type</option>
+                                            <option value="food">Food Collection</option>
+                                            <option value="meat">Meat Collection</option>
                                         </select>
+
+                                        @error('type')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong> {{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('month')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong> {{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                    <div class="col-sm-5">
+                                        <input type="text" name="month" id="month" class="form-control" placeholder="e.g June2021" required="">
+                                        @error('month')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong> {{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
                                     <div class="col-sm-2">
                                         <button class="btn waves-effect btn-round waves-light btn-block btn-sm btn-success">Search</button>
                                     </div>
@@ -100,6 +104,7 @@
                                             <th>Deparment</th>
                                             <th>Number</th>
                                             <th>Name</th>
+                                            <th>Allocation</th>
                                             <th>Jobcard No:</th>
                                             <th>Issue Date</th>
                                             <th>Collected By</th>
@@ -111,12 +116,19 @@
                                             @foreach ($collections as $collection )
                                                 <tr>
                                                     <td>{{ $collection->id }}</td>
-                                                    <td>{{ $collection->department }}</td>
+                                                    <td>{{ $collection->user->department->name }}</td>
                                                     <td>{{ $collection->paynumber }}</td>
-                                                    <td>{{ $collection->name }}</td>
-                                                    <td>{{ $collection->card_number }}</td>
+                                                    <td>{{ $collection->user->full_name }}</td>
+                                                    <td>{{ $collection->allocation }}</td>
+                                                    <td>{{ $collection->jobcard }}</td>
                                                     <td>{{ $collection->issue_date }}</td>
-                                                    <td>{{ $collection->collected_by }}</td>
+                                                    <td>
+                                                        @if($collection->self == 1)
+                                                            SELF
+                                                        @else
+                                                            {{ $collection->collected_by }}
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $collection->id_number }}</td>
                                                 </tr>
                                             @endforeach
@@ -154,8 +166,9 @@
 
 <script>
     $(document).ready(function() {
-        $('#month').select2({
-            placeholder:'Please select month.',
+
+        $('#type').select2({
+            placeholder:'Please select collection type.',
         });
     });
 </script>

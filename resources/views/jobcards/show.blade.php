@@ -13,6 +13,7 @@
           <h6>Month : <span class="month"></span></h6>
           <h6>Quantity : <span class="quantity"></span></h6>
           <h6>Issued : <span class="issued"></span></h6>
+          <h6>Job Card Type : <span style="text-transform: capitalize" class="cardtype"></span></h6>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Close</button>

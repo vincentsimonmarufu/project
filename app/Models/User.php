@@ -89,9 +89,14 @@ class User extends Authenticatable
         return $this->hasMany(FoodRequest::class,'paynumber','paynumber');
     }
 
-    public function fcollections()
+    public function food_collections()
     {
         return $this->hasMany(FoodCollection::class,'paynumber','paynumber');
+    }
+
+    public function meat_collections()
+    {
+        return $this->hasMany(MeatCollection::class,'paynumber','paynumber');
     }
 
 }

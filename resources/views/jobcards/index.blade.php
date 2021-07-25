@@ -86,7 +86,7 @@
                                             <td>{{ $jobcard->extras_previous}}</td>
                                             <td style="white-space: nowrap;width:20%;">
                                                 <a href="{{ route('jobcards.edit',$jobcard->id) }}" data-toggle="tooltip" title="Edit Jobcard" class="d-inline btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
-                                                <button type="button" class="d-inline btn-sm btn btn-success" data-toggle="modal" data-target="#showJobcard" data-issued="{{ $jobcard->issued }}" data-quantity="{{ $jobcard->quantity }}" data-month="{{ $jobcard->card_month }}" data-dateopened="{{ $jobcard->date_opened }}" data-cardnumber="{{ $jobcard->card_number }}"><i class="fa fa-eye"></i></button>
+                                                <button type="button" class="d-inline btn-sm btn btn-success" data-toggle="modal" data-target="#showJobcard" data-issued="{{ $jobcard->issued }}" data-quantity="{{ $jobcard->quantity }}" data-month="{{ $jobcard->card_month }}" data-dateopened="{{ $jobcard->date_opened }}" data-cardnumber="{{ $jobcard->card_number }}" data-cardtype="{{ $jobcard->card_type }}"><i class="fa fa-eye"></i></button>
                                                 <form method="POST" action="{{ route('jobcards.destroy',$jobcard->id) }}" role="form" class="d-inline">
                                                     @csrf
                                                     @method("DELETE")
@@ -136,6 +136,7 @@
         var month = button.data('month')
         var quantity = button.data('quantity')
         var issued = button.data('issued')
+        var cardtype = button.data('cardtype')
         var modal = $(this)
         modal.find('.modal-title').text('Show Jobcard No:  ' + cardnumber)
         modal.find('.card-number').text(cardnumber)
@@ -143,6 +144,7 @@
         modal.find('.month').text(month)
         modal.find('.quantity').text(quantity)
         modal.find('.issued').text(issued)
+        modal.find('.cardtype').text(cardtype)
     })
 </script>
 

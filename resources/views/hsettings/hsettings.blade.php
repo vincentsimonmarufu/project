@@ -58,7 +58,7 @@
                                         @method('PUT')
 
                                         <div class="form-group row mt-2">
-                                            <label for="manager" class="col-sm-6 col-form-label"
+                                            <label for="manager" class="col-sm-4 col-form-label"
                                             >Is <strong style="font-weight: bold;">Food</strong> Humber Available : </label
                                             >
                                             <div class="col-sm-6">
@@ -73,7 +73,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group row mt-2">
-                                            <label for="manager" class="col-sm-6 col-form-label"
+                                            <label for="manager" class="col-sm-4 col-form-label"
                                             >Is <strong style="font-weight: bold;">Meat</strong> Humber Available : </label
                                             >
                                             <div class="col-sm-6">
@@ -89,8 +89,8 @@
                                         </div>
 
                                         <div class="form-group row mt-2">
-                                            <label for="name" class="col-sm-6 col-form-label">Last Modified By : </label>
-                                            <div class="col-sm-3">
+                                            <label for="name" class="col-sm-4 col-form-label">Last Modified By : </label>
+                                            <div class="col-sm-5">
                                                 <input type="text" style="padding: 10px 19px;" value="{{auth()->user()->name}}" name="last_agent" id="name" class="form-control" readonly />
                                             </div>
 
