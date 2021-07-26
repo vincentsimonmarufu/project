@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\MonthlyAllocation::class,
+        Commands\DeleteApprovedRequests::class,
+        Commands\DeleteUnattendedRequests::class,
     ];
 
     /**

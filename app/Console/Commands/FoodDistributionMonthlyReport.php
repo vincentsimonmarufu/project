@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class FoodDistributionMonthlyReport extends Command
 {
@@ -37,6 +38,6 @@ class FoodDistributionMonthlyReport extends Command
      */
     public function handle()
     {
-        return 0;
+        Log::info("Cron is working fine!");
     }
 }

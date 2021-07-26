@@ -40,4 +40,9 @@ class FoodRequest extends Model
     {
         return $this->hasOne(User::class,'paynumber','approver');
     }
+
+    public function job()
+    {
+        return $this->belongsTo(Jobcard::class,'jobcard','card_number');
+    }
 }

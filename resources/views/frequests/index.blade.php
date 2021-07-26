@@ -77,7 +77,11 @@
                                             <td>{{ $frequest->user->full_name }}</td>
                                             <td>{{ $frequest->department }}</td>
                                             <td>{{ $frequest->allocation }}</td>
-                                            <td>{{ $frequest->approve->name }}</td>
+                                            <td>
+                                                @if($frequest->status == "approved" || $frequest->status == "collected")
+                                                    {{ $frequest->approve->name }}
+                                                @endif
+                                            </td>
                                             <td>{{ $frequest->created_at }}</td>
                                             <td>
                                                 {{ $frequest->issued_on }}

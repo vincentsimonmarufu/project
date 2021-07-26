@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\FoodRequest;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class DeleteUnattendedRequests extends Command
 {
@@ -38,7 +39,20 @@ class DeleteUnattendedRequests extends Command
      */
     public function handle()
     {
-        // write the code here man
-        $requests = FoodRequest::where('status','not approved');
+        $requests = FoodRequest::where('status','=','not approved')->get();
+
+        $deleted = array();
+
+        foreach($requests as $request)
+        {
+            $request->delete();
+
+            if($request->delete())
+            {
+                array_push($deleted,$request->request);
+            }
+        }
+
+        Log::info($deleted);
     }
 }

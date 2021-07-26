@@ -28,4 +28,14 @@ class Jobcard extends Model
     {
         return $this->hasMany(FoodCollection::class,'jobcard','card_number');
     }
+
+    public function frequests()
+    {
+        return $this->hasMany(FoodRequest::class,'jobcard','card_number');
+    }
+
+    public function mcollections()
+    {
+        return $this->hasMany(MeatCollection::class,'jobcard','card_number');
+    }
 }
