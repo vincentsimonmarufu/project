@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FoodCollection;
 use App\Models\HumberSetting;
 use App\Models\Jobcard;
 use Illuminate\Http\Request;
@@ -55,6 +56,17 @@ class HomeController extends Controller
             $jobcards = DB::table('jobcards')->orderBy('created_at','desc')->limit(5)->get();
 
             return view('home',compact('settings','jobcards','food_count','meat_count','total'));
+        }
+
+        if ($user->hasRole('user'))
+        {
+            $food_count = $user->fcount;
+            $meat_count = $user->mcount;
+            $settings = HumberSetting::where('id',1)->first();
+
+            $fcollections = FoodCollection::where('paynumber',$user->paynumber)->get();
+
+            return view('pages.user.home',compact('settings','fcollections','food_count','meat_count'));
         }
     }
 }

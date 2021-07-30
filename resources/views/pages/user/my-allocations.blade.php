@@ -12,8 +12,8 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Allocations</h5>
-                    <span class="pcoded-mtext"> Users Allocations</span>
+                    <h5>My Allocations</h5>
+                    <span class="pcoded-mtext"> Overview of my allocations</span>
                 </div>
             </div>
         </div>
@@ -21,16 +21,14 @@
             <div class="page-header-breadcrumb">
                 <ul class="breadcrumb breadcrumb-title">
                     <li class="breadcrumb-item">
-                        <a href="index.html"
+                        <a href="{{ url('home') }}"
                         ><i class="feather icon-home"></i
                         ></a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('allocations') }}">Allocations</a>
+                        <a href="{{ url('home') }}">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item">
-                        <a href="{{ url('allocations/create') }}">Add New</a>
-                    </li>
+
                 </ul>
             </div>
         </div>
@@ -45,7 +43,7 @@
                     <div class="col-sm-12">
                       <div class="card">
                         <div class="card-header" style="margin-bottom: 0;padding-bottom:0;">
-                            <h4 style="font-size:16px;margin-bottom:0;">Showing all user allocations <span class="float-right"><a href="{{ url('/allocations/create') }}" class="d-inline btn btn-sm btn-round btn-outline-secondary">Add New</a></span> </h4>
+                            <h4 style="font-size:16px;margin-bottom:0;">Showing all user allocations </h4>
                         </div>
                         <div class="card-block">
                           <div class="dt-responsive table-responsive">
@@ -56,7 +54,6 @@
                               <thead>
                                 <tr>
                                   <th>Id</th>
-                                  <th>Paynumber</th>
                                   <th>Name</th>
                                   <th>Allocation</th>
                                   <th>Food</th>
@@ -64,7 +61,6 @@
                                   <th>Meet A</th>
                                   <th>Meet B</th>
                                   <th>Status</th>
-                                  <th>Action</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -72,7 +68,6 @@
                                     @foreach ($allocations as $allocation )
                                         <tr>
                                             <td>{{ $allocation->id }}</td>
-                                            <td>{{ $allocation->paynumber }}</td>
                                             <td>{{ $allocation->user->full_name }}</td>
                                             <td>{{ $allocation->allocation }}</td>
                                             <td>{{ $allocation->food_allocation }}</td>
@@ -100,15 +95,6 @@
                                                         >{{ $allocation->status }}</span
                                                     >
 
-                                            </td>
-                                            <td style="white-space: nowrap;width:20%;">
-                                                <a href="{{ route('allocations.edit',$allocation->id) }}" data-toggle="tooltip" title="Edit Allocation" class="d-inline btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
-                                                <a href="{{ route('allocations.show',$allocation->id) }}" data-toggle="tooltip" title="Show Allocation" class="d-inline btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
-                                                <form method="POST" role="form" class="d-inline" action="{{ route('allocations.destroy',$allocation->id) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="d-inline btn-sm btn btn-danger" data-toggle="tooltip" title="Delete Allocation"><i class="fa fa-trash-o"></i></button>
-                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach

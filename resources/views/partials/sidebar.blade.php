@@ -3,6 +3,8 @@
         <div class="pcoded-inner-navbar main-menu">
             <ul class="pcoded-item pcoded-left-item">
 
+                @role('admin')
+
                 <div class="pcoded-navigation-label">Dashboard</div>
 
                 <li class="">
@@ -431,6 +433,141 @@
                         <span class="pcoded-mtext">Humber Settings</span>
                     </a>
                 </li>
+
+                @endrole
+
+                @role('user')
+
+                <div class="pcoded-navigation-label">Dashboard</div>
+
+                <li class="">
+                    <a
+                    href="{{ url('/home') }}"
+                    class="waves-effect waves-dark"
+                    >
+                    <span class="pcoded-micon"
+                        ><i class="feather icon-home"></i
+                    ></span>
+                    <span class="pcoded-mtext">Dashboard</span>
+                    </a>
+                </li>
+
+                <div class="pcoded-navigation-label">Allocations</div>
+
+                <li class="pcoded-hasmenu">
+                    <a
+                    href="javascript:void(0)"
+                    class="waves-effect waves-dark"
+                    >
+                    <span class="pcoded-micon"
+                        ><i class="fa fa-calendar"></i></span>
+                    <span class="pcoded-mtext">Allocations</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                    <li class="">
+                        <a
+                        href="{{ url('my-user-allocation') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">My Allocations</span>
+                        </a>
+                    </li>
+
+                    </ul>
+                </li>
+
+                <div class="pcoded-navigation-label"> My Requests</div>
+
+                <li class="pcoded-hasmenu">
+                    <a
+                    href="javascript:void(0)"
+                    class="waves-effect waves-dark"
+                    >
+                    <span class="pcoded-micon"
+                        ><i class="fa fa-file-excel-o"></i></span>
+                    <span class="pcoded-mtext">Food Requests</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                    <li class="">
+                        <a
+                        href=""
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">All Requests</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href="{{ url('frequests/create') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Create Request</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href=""
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Pending Request</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href=""
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Approved Request</span>
+                        </a>
+                    </li>
+                    </ul>
+                </li>
+                <li class="pcoded-hasmenu">
+                    <a
+                    href="javascript:void(0)"
+                    class="waves-effect waves-dark"
+                    >
+                    <span class="pcoded-micon"
+                        ><i class="fa fa-file-excel-o"></i></span>
+                    <span class="pcoded-mtext">Meat Requests</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                    <li class="">
+                        <a
+                        href=""
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">All Requests</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href=""
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Create Request</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href=""
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Pending Request</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href=""
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Approved Request</span>
+                        </a>
+                    </li>
+                    </ul>
+                </li>
+
+                @endrole
             </ul>
         </div>
     </div>

@@ -95,8 +95,5 @@ class MonthlyAllocation extends Command
             }
 
         }
-        // Log::info("Cron is working fine!");
-
-        // $this->info('allocation:monthly Cummand Run successfully!');
     }
 }

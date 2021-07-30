@@ -127,4 +127,16 @@ Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger
 });
 
 
-    Route::get('email-approve/{id}/{approver}','App\Http\Controllers\FoodRequestController@emailApprove');
+Route::get('email-approve/{id}/{approver}','App\Http\Controllers\FoodRequestController@emailApprove');
+
+// user routes
+Route::group(['middleware' => ['web','activity','role:user']], function () {
+
+    Route::get('my-user-allocation','App\Http\Controllers\UserController@myAllocations');
+
+    Route::resource('frequests', 'App\Http\Controllers\FoodRequestController', [
+        'only' => [
+            'create',
+        ],
+    ]);
+});
