@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('activated')->default(0);
-            $table->string('pin')->nullable();
+            $table->string('pin')->default('1234');
             $table->integer('fcount')->default(0);
             $table->integer('mcount')->default(0);
 

@@ -33,6 +33,9 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
 
     // departments
     Route::resource('departments', 'App\Http\Controllers\DepartmentsController');
+    Route::post('department-import-send','App\Http\Controllers\DepartmentsController@departmentImportSend');
+    Route::get('/department-download','App\Http\Controllers\DepartmentsController@downloadDepartmentForm');
+    Route::get('get-department-import', 'App\Http\Controllers\DepartmentsController@importDepartments');
     Route::get('assign-manager','App\Http\Controllers\DepartmentsController@assignManager');
     Route::get('get-user-department/{paynumber}','App\Http\Controllers\DepartmentsController@getDepartment');
     Route::post('assign-manager-post','App\Http\Controllers\DepartmentsController@assignManagerPost');
@@ -45,6 +48,9 @@ Route::group(['middleware' => ['web','activity','role:admin']], function () {
 
     // users
     Route::resource('users', 'App\Http\Controllers\UsersManagementController');
+    Route::post('users-import-send','App\Http\Controllers\UsersManagementController@usersImportSend');
+    Route::get('/users-download','App\Http\Controllers\UsersManagementController@downloadUsersForm');
+    Route::get('get-users-import', 'App\Http\Controllers\UsersManagementController@importUsers');
     Route::resource('deleted-users', 'App\Http\Controllers\SoftDeleteUsersController');
     Route::get('deactivate-user/{id}','App\Http\Controllers\UsersManagementController@deActivateUser');
     Route::get('terminate-user-form','App\Http\Controllers\UsersManagementController@terminateForm');
@@ -129,8 +135,7 @@ Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger
 
 Route::get('email-approve/{id}/{approver}','App\Http\Controllers\FoodRequestController@emailApprove');
 
-// user routes
-Route::group(['middleware' => ['web','activity','role:user']], function () {
+Route::group(['middleware' => ['web','activity']], function () {
 
     Route::get('my-user-allocation','App\Http\Controllers\UserController@myAllocations');
 

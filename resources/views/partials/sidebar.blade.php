@@ -71,6 +71,14 @@
                         <span class="pcoded-mtext">Reset Pin</span>
                         </a>
                     </li>
+                    <li class="">
+                        <a
+                        href="{{ url('get-users-import') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Import Users</span>
+                        </a>
+                    </li>
                     </ul>
                 </li>
 
@@ -127,6 +135,14 @@
                         class="waves-effect waves-dark"
                         >
                         <span class="pcoded-mtext">Manage Departments</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a
+                        href="{{ url('get-department-import') }}"
+                        class="waves-effect waves-dark"
+                        >
+                        <span class="pcoded-mtext">Import Departments</span>
                         </a>
                     </li>
                     </ul>

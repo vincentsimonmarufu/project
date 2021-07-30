@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\UsersImport;
 use App\Models\Department;
 use App\Models\Termination;
 use App\Models\User;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use jeremykenedy\LaravelRoles\Models\Role;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 
 class UsersManagementController extends Controller
@@ -358,5 +360,32 @@ class UsersManagementController extends Controller
                 echo "Error - ".$e;
             }
         }
+    }
+
+    public function importUsers()
+    {
+        return view('usersmanagement.import');
+    }
+
+    public function downloadUsersForm()
+    {
+        $myFile = public_path("starter-downloads/usersimport.xlsx");
+
+        return response()->download($myFile);
+    }
+
+    public function usersImportSend(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'users' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        Excel::import(new UsersImport,request()->file('users'));
+
+        return redirect('users')->with('Data has been imported successfully');
     }
 }

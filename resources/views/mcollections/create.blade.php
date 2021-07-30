@@ -263,7 +263,7 @@
                 if(id){
                     $.ajax({
                         type:"get",
-                        url:"/get-food-request/"+id,
+                        url:"http://192.168.1.84:8000/foodhumbers/get-food-request/"+id,
                         _token: _token ,
                         success:function(res)
                         {
@@ -282,7 +282,7 @@
 
                     $.ajax({
                         type:"get",
-                        url:"/getfrequestallocation/"+id,
+                        url:"http://192.168.1.84:8000/foodhumbers/getfrequestallocation/"+id,
                         _token: _token ,
                         success:function(res)
                         {
@@ -301,7 +301,7 @@
 
                     $.ajax({
                         type:"get",
-                        url:"/get-request-type/"+id,
+                        url:"http://192.168.1.84:8000/foodhumbers/get-request-type/"+id,
                         _token: _token ,
                         success:function(res)
                         {
@@ -320,7 +320,7 @@
 
                     $.ajax({
                         type:"get",
-                        url:"/getuserbeneficiaries/"+id,
+                        url:"http://192.168.1.84:8000/foodhumbers/getuserbeneficiaries/"+id,
                         _token: _token ,
                         success:function(res) {
                             if(res) {
@@ -335,7 +335,7 @@
 
                     $.ajax({
                         type:"get",
-                        url:"/get-jobcard-request/"+id,
+                        url:"http://192.168.1.84:8000/foodhumbers/get-jobcard-request/"+id,
                         _token: _token ,
                         success:function(res) {
                             if(res) {

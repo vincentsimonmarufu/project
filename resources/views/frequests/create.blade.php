@@ -189,7 +189,7 @@
         if(paynumber){
             $.ajax({
                 type:"get",
-                url:"/getusername/"+paynumber,
+                url:"http://192.168.1.84:8000/foodhumbers/getusername/"+paynumber,
                 _token: _token ,
                 success:function(res)
                 {
@@ -208,7 +208,7 @@
 
             $.ajax({
                 type:"get",
-                url:"/get-user-department/"+paynumber,
+                url:"http://192.168.1.84:8000/foodhumbers/get-user-department/"+paynumber,
                 _token: _token ,
                 success:function(res)
                 {
@@ -227,7 +227,7 @@
 
             $.ajax({
                 type:"get",
-                url:"/get-allocation-request/"+paynumber,
+                url:"http://192.168.1.84:8000/foodhumbers/get-allocation-request/"+paynumber,
                 _token: _token ,
                 success:function(res) {
                     if(res) {

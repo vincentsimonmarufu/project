@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\DepartmentImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Department;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use PHPUnit\Framework\MockObject\Stub\ReturnStub;
 
 class DepartmentsController extends Controller
@@ -219,5 +221,33 @@ class DepartmentsController extends Controller
                     ->pluck('name','id');
 
         return response()->json($department);
+    }
+
+    public function importDepartments()
+    {
+        return view('departments.import');
+    }
+
+    public function downloadDepartmentForm()
+    {
+        $myFile = public_path("starter-downloads/departmentsimport.xlsx");
+
+        return response()->download($myFile);
+    }
+
+    public function departmentImportSend(Request $request) {
+
+        $validator = Validator::make($request->all(),[
+            'department' => 'required',
+
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        Excel::import(new DepartmentImport,request()->file('department'));
+
+        return redirect('departments')->with('Data has been imported successfully');
     }
 }
